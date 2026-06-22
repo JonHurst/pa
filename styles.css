@@ -83,6 +83,7 @@ button:disabled {
     }
     dd {
         margin: 1rem;
+        font-size: 1.5rem;
     }
     span {
         color: var(--fg-color-1);

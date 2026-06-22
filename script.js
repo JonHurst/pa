@@ -57,7 +57,7 @@ function do_calculation(state) {
     state.out.altitude = (state.fl * 0.03048).toFixed(1).toString();
     state.out.track = fuzzy_bearing(state.track);
     state.out.speed = nm_to_km(state.gs);
-    state.out.s_per_km = (3600 / (state.gs * 1.852)).toFixed(0).toString();
+    state.out.s_per_km = (3600 / (state.gs * 1.852)).toFixed(1).toString();
     // intention is to update these fields based on time stamp and gs
     state.out.dist_to_run = nm_to_km(state.dist_left);
     state.out.total_dist = nm_to_km(state.dist_total);
@@ -90,11 +90,15 @@ function _draw(state) {
             }
         } else if(c == state.stage) {
             sections[c].classList.remove("hidden");
-            for(let el of sections[c].getElementsByTagName("input")) {
+            let inputs = sections[c].getElementsByTagName("input");
+            for(let el of inputs) {
                 el.removeAttribute("readonly");
             }
             for(let el of sections[c].getElementsByTagName("button")) {
                 el.removeAttribute("disabled");
+            }
+            if(inputs.length) {
+                inputs[0].focus();
             }
         } else {
             sections[c].classList.add("hidden");
