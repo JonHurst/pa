@@ -34,6 +34,13 @@ function _update(msg, state, draw) {
     case "prev-stage":
         state.stage--;
         break;
+    case "recalc":
+        if(state.stage == 4) {
+            do_calculation(state);
+        } else {
+            return;
+        }
+        break;
     }
     draw(state);
 }
@@ -54,17 +61,31 @@ function fuzzy_bearing(bearing) {
 function do_calculation(state) {
     const nm_to_km = nm => (nm * 1.852).toFixed(0).toString();
     state.out = {};
+    let now = (new Date()).getTime();
     state.out.altitude = (state.fl * 0.03048).toFixed(1).toString();
     state.out.track = fuzzy_bearing(state.track);
     state.out.speed = nm_to_km(state.gs);
     state.out.s_per_km = (3600 / (state.gs * 1.852)).toFixed(1).toString();
-    // intention is to update these fields based on time stamp and gs
-    state.out.dist_to_run = nm_to_km(state.dist_left);
+    // update distance to run based on time since distance data entered
+    let ltr = state.dist_left - state.gs * (now - state.dist_timestamp) / 3600000;
+    state.out.dist_to_run = nm_to_km(ltr);
     state.out.total_dist = nm_to_km(state.dist_total);
-    state.out.fraction_left = (state.dist_left / state.dist_total).toFixed(2).toString();
-    // intention is to update these fields based on time stamp and gs
-    state.out.wp_dist = nm_to_km(state.wp_distance);
-    state.out.wp_bearing = fuzzy_bearing(state.wp_bearing + 180);
+    state.out.fraction_left = (ltr / state.dist_total).toFixed(2).toString();
+    // update bearing and distance based on time since waypoint data entered
+    let wp_bearing_rads = state.wp_bearing * Math.PI / 180;
+    let wp_0_i = state.wp_distance * Math.sin(wp_bearing_rads);
+    let wp_0_j = state.wp_distance * Math.cos(wp_bearing_rads);
+    let hours = (now - state.wp_timestamp) / 3600000;
+    let track_rads = state.track * Math.PI / 180;
+    let t_i = (state.gs * hours) * Math.sin(track_rads);
+    let t_j = (state.gs * hours) * Math.cos(track_rads);
+    let wp_t_i = wp_0_i - t_i;
+    let wp_t_j = wp_0_j - t_j;
+    let new_bearing = 450 - ((Math.atan2(wp_t_j, wp_t_i)) * 180 / Math.PI);
+    console.log(wp_t_i, wp_t_j, new_bearing % 360);
+    let new_dist = Math.hypot(wp_t_j, wp_t_i);
+    state.out.wp_dist = nm_to_km(new_dist);
+    state.out.wp_bearing = fuzzy_bearing(new_bearing + 180);
     state.out.wp_name = state.wp_name;
     // date calculation uses luxon
     let eta_z = DateTime.fromFormat(state.eta, "HHmm", { zone: "UTC" });
@@ -150,6 +171,7 @@ function main() {
     draw(state);
     let update = msg => _update(msg, state, draw);
     do_wiring(update);
+    window.setInterval(() => update({type: "recalc"}), 1000 * 10);
 }
 
 window.onload = main;
