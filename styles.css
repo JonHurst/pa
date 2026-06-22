@@ -1,0 +1,59 @@
+:root {
+    --border: 1px solid gray;
+    --border-radius: 0.25rem;
+    --padding: 1rem;
+    --margin: 1rem;
+    --bg-color: white;
+    --bg-color-1: #EFE;
+    --fg-color: black;
+}
+
+body {
+    background-color: gray;
+    color: black;
+    display: grid;
+}
+
+section {
+    background-color: var(--bg-color);
+    border: var(--border);
+    border-radius: var(--border-radius);
+    margin: var(--margin);
+    padding: var(--padding);
+}
+
+button {
+    border: var(--border);
+    border-radius: var(--border-radius);
+    padding: calc(var(--padding) / 2) var(--padding);
+    margin: calc(var(--margin) / 4);
+    height: 2.5rem;
+    width: 5rem;
+    color: var(--fg-color);
+    background-color: var(--bg-color-1);
+    font-size: 1rem;
+}
+
+
+.j-entry {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    label {
+        padding-bottom: calc(var(--padding) / 2);
+    }
+    input {
+        border: var(--border);
+        font-size: 1.5rem;
+        text-align: center;
+        margin-left: var(--margin);
+    }
+    input:invalid {
+        color: red;
+    }
+    div {
+        display: flex;
+        flex-direction: column;
+        justify-content: left;
+    }
+}

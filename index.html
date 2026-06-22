@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+   <meta charset='UTF-8'>
+    <title>PA Assistant</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <!-- <script src="script.js"></script> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <section class="j-entry" id="flight-paramaters">
+      <div>
+        <label for="fl">Flight Level:</label>
+        <input id="fl" type="text" size=3 pattern="[0-9]{1,3}" inputmode="numeric">
+      </div>
+      <div>
+        <label for="track">Track:</label>
+        <input id="track" type="text" size=3 pattern="[0-9]{1,3}" inputmode="numeric">
+      </div>
+      <div>
+        <label for="gs">Ground Speed (kt):</label>
+        <input id="gs" type="text" size=3 pattern="[0-9]{1,3}" inputmode="numeric">
+      </div>
+      <button id="fp-next">Next</button>
+    </section>
+    <section class="j-entry" id="position">
+      <div>
+        <label for="waypoint">Waypoint:</label>
+        <input id="waypoint" type="text" size=15>
+      </div>
+      <div>
+        <label for="bearing">Bearing:</label>
+        <input id="bearing" type="text" size=3 pattern="[0-9]{1,3}" inputmode="numeric">
+      </div>
+      <div>
+        <label for="distance">Distance (nm):</label>
+        <input id="distance" type="text" size=4 pattern="[0-9]{1,4}" inputmode="numeric">
+      </div>
+      <div>
+        <button id="wp-back">Back</button>
+        <button id="wp-next">Next</button>
+      </div>
+    </section>
+    <section class="j-entry" id="distance">
+      <div>
+        <label for="dtot">Sector Length (nm):</label>
+        <input id="dtot" type="text" size=5 pattern="[0-9]{1,5}" inputmode="numeric">
+      </div>
+      <div>
+        <label for="dtg">Distance to go (nm):</label>
+        <input id="dtg" type="text" size=5 pattern="[0-9]{1,5}" inputmode="numeric">
+      </div>
+      <div>
+        <button id="d-back">Back</button>
+        <button id="d-next">Next</button>
+      </div>
+    </section>
+    <section class="j-entry" id="time">
+      <div>
+        <label for="sta">Scheduled Arrival (Z):</label>
+        <input id="sta" type="text" size=4 pattern="[0-9]{1,4}" inputmode="numeric">
+      </div>
+      <div>
+        <label for="eta">ETA (Z):</label>
+        <input id="eta" type="text" size=4 pattern="[0-9]{1,4}" inputmode="numeric">
+      </div>
+      <div>
+        <label for="tz">TZ offset:</label>
+        <input id="tz" type="text" size=2 pattern="[0-9]{1,2}" inputmode="numeric">
+      </div>
+      <div>
+        <button id="t-back">Back</button>
+        <button id="done">Done</button>
+      </div>
+
+    </section>
+
+  </body>
+</html>
