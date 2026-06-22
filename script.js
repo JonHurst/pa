@@ -134,6 +134,17 @@ function do_wiring(update) {
 }
 
 function main() {
+    navigator?.serviceWorker?.register('sw.js').then(r => {
+        r.addEventListener('updatefound', () => {
+            let new_sw = r.installing;
+            new_sw.addEventListener("statechange", () => {
+                if(new_sw.state == "activated") {
+                    window.location.reload();
+                }
+            });
+        });
+        window.setInterval(() => r.update(), 1000 * 60);
+    });
     let state = {stage: 0};
     let draw = () => _draw(state);
     draw(state);
