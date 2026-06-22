@@ -23,7 +23,7 @@
       </div>
       <button id="fp-next">Next</button>
     </section>
-    <section class="j-entry" id="position">
+    <section class="j-entry hidden" id="position">
       <div>
         <label for="waypoint">Waypoint:</label>
         <input id="waypoint" type="text" size=15>
@@ -41,7 +41,7 @@
         <button id="wp-next">Next</button>
       </div>
     </section>
-    <section class="j-entry" id="distance">
+    <section class="j-entry hidden" id="distance">
       <div>
         <label for="dtot">Sector Length (nm):</label>
         <input id="dtot" type="text" size=5 pattern="[0-9]{1,5}" inputmode="numeric">
@@ -55,7 +55,7 @@
         <button id="d-next">Next</button>
       </div>
     </section>
-    <section class="j-entry" id="time">
+    <section class="j-entry hidden" id="time">
       <div>
         <label for="sta">Scheduled Arrival (Z):</label>
         <input id="sta" type="text" size=4 pattern="[0-9]{1,4}" inputmode="numeric">
@@ -72,7 +72,41 @@
         <button id="t-back">Back</button>
         <button id="done">Done</button>
       </div>
-
+    </section>
+    <section class="j-output hidden" id="output">
+      <div>
+        <h2>Flight parameters</h2>
+        <dl>
+          <dt>Altitude</dt><dd><span id="o-fp-alt">XXX</span>km ASL</dd>
+          <dt>Tracking</dt><dd><span id="o-fp-fuzzy-trk">XXX</span></dd>
+          <dt>Speed</dt><dd><span id="o-fp-speed">XXX</span>km/h</dd>
+          <dt>Seconds/km</dt><dd><span id="o-fp-secs-per-km">X</span></dd>
+        </dl>
+      </div>
+      <div>
+        <h2>Current position</h2>
+        <dl>
+          <dt>Distance</dt><dd><span id="o-wp-dist">XX</span>km</dd>
+          <dt>Bearing from</dt><dd><span id="o-wp-fuzzy-brg-from ">XXXX</span></dd>
+          <dt>Place</dt><dd><span id="o-wp-name">XX</span></dd>
+        </dl>
+      </div>
+      <div>
+        <h2>Distances</h2>
+        <dl>
+          <dt>Left to run</dt><dd><span id="o-dist-left">XXX</span>km</dd>
+          <dt>Sector length</dt><dd><span id="o-dist-sector">XXX</span>km</dd>
+          <dt>Fraction remaining</dt><dd><span id="o-dist-left-fraction">X</span></dd>
+        </dl>
+      </div>
+      <div>
+        <h2>Times</h2>
+        <dl>
+          <dt>ETA (local time)</dt><dd><span id="o-eta">XX:XX</span></dd>
+          <dt>Local vs UK</dt><dd><span id="o-l-vs-uk">X</span></dd>
+          <dt>ETA vs STA</dt><dd><span id="o-eta-vs-sta">X</span></dd>
+        </dl>
+      </div>
     </section>
 
   </body>

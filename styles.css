@@ -1,17 +1,19 @@
 :root {
     --border: 1px solid gray;
-    --border-radius: 0.25rem;
+    --border-radius: 0.3rem;
     --padding: 1rem;
     --margin: 1rem;
     --bg-color: white;
     --bg-color-1: #EFE;
     --fg-color: black;
+    --fg-color-1: #070;
 }
 
 body {
     background-color: gray;
     color: black;
     display: grid;
+    font-family: Helvetica, Arial, sans-serif;
 }
 
 section {
@@ -34,11 +36,13 @@ button {
     font-size: 1rem;
 }
 
-
 .j-entry {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    .hidden {
+        display: none;
+    }
     label {
         padding-bottom: calc(var(--padding) / 2);
     }
@@ -46,7 +50,7 @@ button {
         border: var(--border);
         font-size: 1.5rem;
         text-align: center;
-        margin-left: var(--margin);
+        margin-left: calc(var(--margin) * 2);
     }
     input:invalid {
         color: red;
@@ -56,4 +60,24 @@ button {
         flex-direction: column;
         justify-content: left;
     }
+}
+
+.j-output {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    dl {
+        margin-left: calc(var(--margin) * 2);
+    }
+    dt {
+        font-weight: bold;
+        margin-top: 1rem;
+    }
+    span {
+        color: var(--fg-color-1);
+        font-weight: bold;
+    }
+}
+
+.j-output.hidden, .j-entry.hidden {
+    display: none;
 }
