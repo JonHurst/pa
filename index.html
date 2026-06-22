@@ -4,7 +4,7 @@
    <meta charset='UTF-8'>
     <title>PA Assistant</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
-    <!-- <script src="script.js"></script> -->
+    <script src="script.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body>
@@ -66,7 +66,7 @@
       </div>
       <div>
         <label for="tz">TZ offset:</label>
-        <input id="tz" type="text" size=2 pattern="[0-9]{1,2}" inputmode="numeric">
+        <input id="tz" type="text" size=2 pattern="[0-9\-]{1,2}" inputmode="numeric">
       </div>
       <div>
         <button id="t-back">Back</button>
@@ -106,6 +106,9 @@
           <dt>Local vs UK</dt><dd><span id="o-l-vs-uk">X</span></dd>
           <dt>ETA vs STA</dt><dd><span id="o-eta-vs-sta">X</span></dd>
         </dl>
+      </div>
+      <div class="buttonbar">
+        <button id="edit">Edit</button>
       </div>
     </section>
 

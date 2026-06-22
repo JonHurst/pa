@@ -5,6 +5,7 @@
     --margin: 1rem;
     --bg-color: white;
     --bg-color-1: #EFE;
+    --bg-color-2: #EEE;
     --fg-color: black;
     --fg-color-1: #070;
 }
@@ -36,6 +37,11 @@ button {
     font-size: 1rem;
 }
 
+button:disabled {
+    background-color: var(--bg-color-2);
+}
+
+
 .j-entry {
     display: flex;
     justify-content: space-between;
@@ -54,6 +60,9 @@ button {
     }
     input:invalid {
         color: red;
+    }
+    input:read-only {
+        background-color: var(--bg-color-2);
     }
     div {
         display: flex;
@@ -75,6 +84,11 @@ button {
     span {
         color: var(--fg-color-1);
         font-weight: bold;
+    }
+    div.buttonbar {
+        grid-column: 1 / span 2;
+        display: flex;
+        justify-content: right;
     }
 }
 
