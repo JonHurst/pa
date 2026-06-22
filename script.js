@@ -3,7 +3,6 @@
 const ID = id => document.getElementById(id);
 
 function _update(msg, state, draw) {
-    console.log("update", msg);
     switch(msg.type) {
     case "next-stage":
         switch(state.stage) {
@@ -38,12 +37,30 @@ function _update(msg, state, draw) {
     draw(state);
 }
 
+
+function fuzzy_bearing(bearing) {
+    const zones = [
+        "N", "N/NE", "NE", "E/NE", "E", "E/SE", "SE", "S/SE",
+        "S", "S/SW", "SW", "W/SW", "W", "W/NW", "NW", "N/NW", "N"];
+    bearing = bearing % 360;
+    for(let c = 0; c < zones.length; c++) {
+        if(bearing < 11.25 + c * 22.5) {
+            return zones[c];
+        }
+    }
+}
+
 function do_calculation(state) {
+    const nm_to_km = nm => (nm * 1.852).toFixed(2).toString();
+    state.out = {};
+    state.out.altitude = (state.fl * 0.03048).toFixed(2).toString();
+    state.out.track = fuzzy_bearing(state.track);
+    state.out.speed = nm_to_km(state.gs);
+    state.out.s_per_km = (3600 / (state.gs * 1.852)).toFixed(2).toString();
     console.log(state);
 }
 
 function _draw(state) {
-    console.log(state);
     let sections = document.getElementsByTagName("section");
     for(let c = 0; c < sections.length; c++) {
         if(c < state.stage) {
@@ -65,6 +82,12 @@ function _draw(state) {
         } else {
             sections[c].classList.add("hidden");
         }
+    }
+    if(state.stage == sections.length - 1) {
+        ID("o-fp-alt").innerText = state.out.altitude;
+        ID("o-fp-fuzzy-trk").innerText = state.out.track;
+        ID("o-fp-speed").innerText = state.out.speed;
+        ID("o-fp-secs-per-km").innerText = state.out.s_per_km;
     }
 }
 
