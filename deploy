@@ -1,0 +1,6 @@
+#!/bin/bash
+
+mkdir -p ~/proj/website/pa/
+cp icon* index.html luxon.js script.js sw.js styles.css ~/proj/website/pa
+
+echo "Files copied to ~/proj/website -- you still need to deploy them!"
