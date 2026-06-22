@@ -73,7 +73,7 @@ button:disabled {
 
 .j-output {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     dl {
         margin-left: calc(var(--margin) * 2);
     }
@@ -81,12 +81,15 @@ button:disabled {
         font-weight: bold;
         margin-top: 1rem;
     }
+    dd {
+        margin: 1rem;
+    }
     span {
         color: var(--fg-color-1);
         font-weight: bold;
     }
     div.buttonbar {
-        grid-column: 1 / span 2;
+        grid-column: 1 / span 3;
         display: flex;
         justify-content: right;
     }
