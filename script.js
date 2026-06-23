@@ -15,30 +15,44 @@ function _update(msg, state, draw) {
     switch(msg.type) {
     case "flight-param-change":
         fields = extract_integer_fields(msg.value, 3);
-        [state.fl, state.track, state.gs] =
-            fields || [undefined, undefined, undefined];
+        if(fields) {
+            [state.fl, state.track, state.gs] = fields;
+            state.valid_flight = true;
+        } else {
+            state.valid_flight = false;
+        }
         break;
     case "waypoint-change":
         fields = extract_integer_fields(msg.value, 2);
-        [state.wp_bearing, state.wp_distance] = fields || [undefined, undefined];
-        state.wp_timestamp = (new Date()).getTime();
+        if(fields) {
+            [state.wp_bearing, state.wp_distance] = fields;
+            state.wp_timestamp = (new Date()).getTime();
+            state.valid_waypoint = true;
+        } else {
+            state.valid_waypoint = false;
+        }
         break;
     case "distances-change":
         fields = extract_integer_fields(msg.value, 2);
-        [state.dist_left, state.dist_total] = fields || [undefined, undefined];
-        state.dist_timestamp = (new Date()).getTime();
+        if(fields) {
+            [state.dist_left, state.dist_total] = fields;
+            state.dist_timestamp = (new Date()).getTime();
+            state.valid_distances = true;
+        } else {
+            state.valid_distances = false;
+        }
         break;
     case "times-change":
         fields = msg.value.split("/");
         if(fields.length == 3) {
             [state.eta, state.sta, state.tz_offset] = fields;
+            state.valid_times = true;
         } else {
-            [state.eta, state.sta, state.tz_offset] = [undefined, undefined, undefined];
+            state.valid_times = false;
         }
         break;
     }
-    do_calculation(state);
-    draw(state);
+    draw(do_calculation(state));
 }
 
 
@@ -46,7 +60,6 @@ function fuzzy_bearing(bearing) {
     const zones = [
         "N", "N/NE", "NE", "E/NE", "E", "E/SE", "SE", "S/SE",
         "S", "S/SW", "SW", "W/SW", "W", "W/NW", "NW", "N/NW", "N"];
-    if(bearing === undefined) return "---";
     bearing = bearing % 360;
     for(let c = 0; c < zones.length; c++) {
         if(bearing < 11.25 + c * 22.5) {
@@ -73,57 +86,69 @@ function updated_waypoint_pos(state, now) {
 
 
 function do_calculation(state) {
-    const nm_to_km = nm => nm ? (nm * 1.852).toFixed(0) : "---";
-    state.out = {};
+    let out = {};
     let now = (new Date()).getTime();
-    state.out.altitude = state.fl ? (state.fl * 0.03048).toFixed(1) : "---";
-    state.out.track = fuzzy_bearing(state.track);
-    state.out.speed = nm_to_km(state.gs);
-    state.out.s_per_km = state.gs ? (3600 / (state.gs * 1.852)).toFixed(1) : "---";
+    if(state.valid_flight) {
+        out.altitude = (state.fl * 0.03048).toFixed(1);
+        out.track = fuzzy_bearing(state.track);
+        out.speed = (state.gs * 1.852).toFixed(0);
+        out.s_per_km = state.gs ? (3600 / (state.gs * 1.852)).toFixed(1) : "---";
+    } else {
+        out.altitude = out.track = out.speed = out.s_per_km = "---";
+    }
     // update distance to run based on time since distance data entered
-    let ltr = state.dist_left - state.gs * (now - state.dist_timestamp) / 3600000;
-    state.out.dist_to_run = nm_to_km(ltr);
-    state.out.total_dist = nm_to_km(state.dist_total);
-    state.out.fraction_left = ltr && state.dist_total ?
-        (ltr / state.dist_total).toFixed(2) : "---";
+    if(state.valid_flight && state.valid_distances) {
+        let ltr = state.dist_left - state.gs *
+            (now - state.dist_timestamp) / 3600000;
+        out.dist_to_run = (ltr * 1.852).toFixed(0);
+        out.total_dist = (state.dist_total*1.852).toFixed(0);
+        out.fraction_left = state.dist_total ?
+            (ltr / state.dist_total).toFixed(2) : "---";
+    } else {
+        out.dist_to_run = out.total_dist = out.fraction_left = "---";
+    }
     // update bearing and distance based on time since waypoint data entered
-    let [new_bearing, new_dist] = updated_waypoint_pos(state, now);
-    state.out.wp_dist = nm_to_km(new_dist);
-    state.out.wp_bearing = fuzzy_bearing(new_bearing + 180);
-    state.out.wp_name = state.wp_name;
+    if(state.valid_flight && state.valid_waypoint) {
+        let [new_bearing, new_dist] = updated_waypoint_pos(state, now);
+        out.wp_dist = (new_dist * 1.852).toFixed(0);
+        out.wp_bearing = fuzzy_bearing(new_bearing + 180);
+    } else {
+        out.wp_dist = out.wp_bearing = "---";
+    }
     // date calculation uses luxon
-    if(state.eta && state.sta && state.tz_offset) {
+    if(state.valid_times) {
         let eta_z = DateTime.fromFormat(state.eta, "HHmm", { zone: "UTC" });
         let sta_z = DateTime.fromFormat(state.sta, "HHmm", { zone: "UTC" });
         let zone = state.tz_offset < 0
             ? `UTC-${-state.tz_offset}`
             : `UTC+${state.tz_offset}`;
-        state.out.eta_l = eta_z.setZone(zone).toFormat("HH:mm");
-        state.out.eta_uk = eta_z.setZone("Europe/London").toFormat("HH:mm");
-        state.out.now_l = DateTime.now().setZone(zone).toFormat("HH:mm");
-        state.out.delay = Math.round((eta_z - sta_z) / 60000);
+        out.eta_l = eta_z.setZone(zone).toFormat("HH:mm");
+        out.eta_uk = eta_z.setZone("Europe/London").toFormat("HH:mm");
+        out.now_l = DateTime.now().setZone(zone).toFormat("HH:mm");
+        out.delay = Math.round((eta_z - sta_z) / 60000);
     }
     else {
-        state.out.eta_l = state.out.eta_uk = state.out.now_l = "--:--";
-        state.out.delay = "---";
+        out.eta_l = out.eta_uk = out.now_l = "--:--";
+        out.delay = "---";
     }
+    return out;
 }
 
 
-function _draw(state) {
-    ID("o-fp-alt").innerText = state.out.altitude;
-    ID("o-fp-fuzzy-trk").innerText = state.out.track;
-    ID("o-fp-speed").innerText = state.out.speed;
-    ID("o-fp-secs-per-km").innerText = state.out.s_per_km;
-    ID("o-dist-left").innerText = state.out.dist_to_run;
-    ID("o-dist-sector").innerText = state.out.total_dist;
-    ID("o-dist-left-fraction").innerText = state.out.fraction_left;
-    ID("o-wp-dist").innerText = state.out.wp_dist;
-    ID("o-wp-fuzzy-brg-from").innerText = state.out.wp_bearing;
-    ID("o-eta-uk").innerText = state.out.eta_uk;
-    ID("o-eta-l").innerText = state.out.eta_l;
-    ID("o-now-l").innerText = state.out.now_l;
-    ID("o-delay").innerText = state.out.delay;
+function draw(out) {
+    ID("o-fp-alt").innerText = out.altitude;
+    ID("o-fp-fuzzy-trk").innerText = out.track;
+    ID("o-fp-speed").innerText = out.speed;
+    ID("o-fp-secs-per-km").innerText = out.s_per_km;
+    ID("o-dist-left").innerText = out.dist_to_run;
+    ID("o-dist-sector").innerText = out.total_dist;
+    ID("o-dist-left-fraction").innerText = out.fraction_left;
+    ID("o-wp-dist").innerText = out.wp_dist;
+    ID("o-wp-fuzzy-brg-from").innerText = out.wp_bearing;
+    ID("o-eta-uk").innerText = out.eta_uk;
+    ID("o-eta-l").innerText = out.eta_l;
+    ID("o-now-l").innerText = out.now_l;
+    ID("o-delay").innerText = out.delay;
 }
 
 
@@ -166,7 +191,6 @@ function main() {
         window.setInterval(() => r.update(), 1000 * 60);
     });
     let state = {};
-    let draw = () => _draw(state);
     let update = msg => _update(msg, state, draw);
     do_wiring(update);
     reparse_all(update);
