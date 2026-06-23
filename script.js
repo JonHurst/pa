@@ -16,37 +16,23 @@ function _update(msg, state, draw) {
     switch(msg.type) {
     case "flight-param-change":
         fields = extract_integer_fields(msg.value, 3);
-        if(!fields) {
-            state.fl = state.track = state.gs = undefined;
-            return;
-        }
-        [state.fl, state.track, state.gs] = fields;
+        [state.fl, state.track, state.gs] =
+            fields || [undefined, undefined, undefined];
         break;
     case "waypoint-change":
         fields = extract_integer_fields(msg.value, 2);
-        if(!fields) {
-            state.wp_bearing = state.wp_distance = undefined;
-            return;
-        }
-        [state.wp_bearing, state.wp_distance] = fields;
+        [state.wp_bearing, state.wp_distance] = fields || [undefined, undefined];
         state.wp_timestamp = (new Date()).getTime();
         break;
     case "distances-change":
         fields = extract_integer_fields(msg.value, 2);
-        if(!fields) {
-            state.dist_left = state.dist_total = undefined;
-            return;
-        }
-        [state.dist_left, state.dist_total] = fields;
+        [state.dist_left, state.dist_total] = fields || [undefined, undefined];
         state.dist_timestamp = (new Date()).getTime();
         break;
     case "times-change":
         fields = msg.value.split("/");
-        if(fields.length != 3) {
-            state.eta = state.sta = state.tz_offset = undefined;
-            return;
-        }
-        [state.eta, state.sta, state.tz_offset] = fields;
+        [state.eta, state.sta, state.tz_offset] =
+            fields || [undefined, undefined, undefined];;
         break;
     }
     do_calculation(state);
@@ -58,6 +44,7 @@ function fuzzy_bearing(bearing) {
     const zones = [
         "N", "N/NE", "NE", "E/NE", "E", "E/SE", "SE", "S/SE",
         "S", "S/SW", "SW", "W/SW", "W", "W/NW", "NW", "N/NW", "N"];
+    if(!bearing) return "---";
     bearing = bearing % 360;
     for(let c = 0; c < zones.length; c++) {
         if(bearing < 11.25 + c * 22.5) {
@@ -67,18 +54,24 @@ function fuzzy_bearing(bearing) {
 }
 
 function do_calculation(state) {
-    const nm_to_km = nm => (nm * 1.852).toFixed(0).toString();
+    const nm_to_km = nm => nm ? (nm * 1.852).toFixed(0).toString() : "---";
     state.out = {};
     let now = (new Date()).getTime();
-    state.out.altitude = (state.fl * 0.03048).toFixed(1).toString();
+    state.out.altitude = state.fl ?
+        (state.fl * 0.03048).toFixed(1).toString()
+        : "---";
     state.out.track = fuzzy_bearing(state.track);
     state.out.speed = nm_to_km(state.gs);
-    state.out.s_per_km = (3600 / (state.gs * 1.852)).toFixed(1).toString();
+    state.out.s_per_km = state.gs ?
+        (3600 / (state.gs * 1.852)).toFixed(1).toString()
+        : "---";
     // update distance to run based on time since distance data entered
     let ltr = state.dist_left - state.gs * (now - state.dist_timestamp) / 3600000;
     state.out.dist_to_run = nm_to_km(ltr);
     state.out.total_dist = nm_to_km(state.dist_total);
-    state.out.fraction_left = (ltr / state.dist_total).toFixed(2).toString();
+    state.out.fraction_left = ltr && state.dist_total ?
+        (ltr / state.dist_total).toFixed(2).toString()
+        : "---";
     // update bearing and distance based on time since waypoint data entered
     let wp_bearing_rads = state.wp_bearing * Math.PI / 180;
     let wp_0_i = state.wp_distance * Math.sin(wp_bearing_rads);
@@ -108,7 +101,8 @@ function do_calculation(state) {
         state.out.delay = Math.round((eta_z - sta_z) / 60000);
     }
     else {
-        state.out.eta_l = state.out.eta_uk = state.out.now_l = state.out.delay = "";
+        state.out.eta_l = state.out.eta_uk = state.out.now_l = "--:--";
+        state.out.delay = "---"
     }
 }
 
