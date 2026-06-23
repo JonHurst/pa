@@ -46,10 +46,6 @@ button {
     font-size: 1rem;
 }
 
-button:disabled {
-    background-color: var(--bg-color-2);
-}
-
 .j-input {
     display:grid;
     grid-template-columns: 9rem 1fr;
@@ -84,8 +80,4 @@ button:disabled {
         color: var(--fg-color-1);
         font-weight: bold;
     }
-}
-
-.j-output.hidden, .j-entry.hidden {
-    display: none;
 }
