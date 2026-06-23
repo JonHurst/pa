@@ -53,6 +53,10 @@ button {
     input {
         font-size: 1.25rem;
     }
+    input::placeholder {
+        color: #AAAA;
+        font-size: 1rem;
+    }
     input:invalid {
         color: var(--fg-color-2);
     }
