@@ -5,7 +5,9 @@ const ID = id => document.getElementById(id);
 
 
 function extract_integer_fields(s, n) {
-    let fields = s.split("/").map(i => parseInt(i)).filter(i => !isNaN(i));
+    let fields = s.split(/\s+/)
+        .map(i => parseInt(i))
+        .filter(i => !isNaN(i));
     return fields.length == n ? fields : null;
 }
 
@@ -43,7 +45,7 @@ function _update(msg, state, draw) {
         }
         break;
     case "times-change":
-        fields = msg.value.split("/");
+        fields = msg.value.trim().split(/\s+/);
         if(fields.length == 3) {
             [state.eta, state.sta, state.tz_offset] = fields;
             state.valid_times = true;
