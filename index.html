@@ -12,78 +12,26 @@
     <link rel="icon" href="icon.svg" type="image/svg+xml">
   </head>
   <body>
-    <header>v1.2</header>
-    <section class="j-entry" id="flight-paramaters">
-      <div>
-        <label for="fl">Flight Level:</label>
-        <input id="fl" type="text" size=3 pattern="[0-9]{1,3}" inputmode="numeric">
-      </div>
-      <div>
-        <label for="track">Track:</label>
-        <input id="track" type="text" size=3 pattern="[0-9]{1,3}" inputmode="numeric">
-      </div>
-      <div>
-        <label for="gs">Ground Speed (kt):</label>
-        <input id="gs" type="text" size=3 pattern="[0-9]{1,3}" inputmode="numeric">
-      </div>
-      <button id="fp-next">Next</button>
+    <header>v1.3</header>
+    <section id="input" class="j-input">
+      <label for="flight">Flight Parameters:</label>
+      <input id="flight" type="text" inputmode="numeric"
+             placeholder="level/track/speed" pattern="[0-9\/]*">
+      <label for="waypoint">Waypoint:</label>
+      <input id="waypoint" type="text" inputmode="numeric"
+             placeholder="bearing/distance" pattern="[0-9\/]*">
+      <label for="distances">Distances:</label>
+      <input id="distances" type="text" inputmode="numeric"
+             placeholder="left/total" pattern="[0-9\/]*">
+      <label for="times">Times:</label>
+      <input id="times" type="text" inputmode="numeric"
+             placeholder="eta/sta/zone" pattern="[0-9\/\-]*">
     </section>
-    <section class="j-entry hidden" id="position">
-      <div>
-        <label for="waypoint">Waypoint:</label>
-        <input id="waypoint" type="text" size=15>
-      </div>
-      <div>
-        <label for="bearing">Bearing to:</label>
-        <input id="bearing" type="text" size=3 pattern="[0-9]{1,3}" inputmode="numeric">
-      </div>
-      <div>
-        <label for="distance">Distance (nm):</label>
-        <input id="distance" type="text" size=4 pattern="[0-9]{1,4}" inputmode="numeric">
-      </div>
-      <div>
-        <button id="wp-back">Back</button>
-        <button id="wp-next">Next</button>
-      </div>
-    </section>
-    <section class="j-entry hidden" id="distance">
-      <div>
-        <label for="dtot">Sector Length (nm):</label>
-        <input id="dtot" type="text" size=5 pattern="[0-9]{1,5}" inputmode="numeric">
-      </div>
-      <div>
-        <label for="dtg">Distance to go (nm):</label>
-        <input id="dtg" type="text" size=5 pattern="[0-9]{1,5}" inputmode="numeric">
-      </div>
-      <div>
-        <button id="d-back">Back</button>
-        <button id="d-next">Next</button>
-      </div>
-    </section>
-    <section class="j-entry hidden" id="time">
-      <div>
-        <label for="sta">Scheduled Arrival (Z):</label>
-        <input id="sta" type="text" size=4 pattern="[0-9]{1,4}" inputmode="numeric">
-      </div>
-      <div>
-        <label for="eta">ETA (Z):</label>
-        <input id="eta" type="text" size=4 pattern="[0-9]{1,4}" inputmode="numeric">
-      </div>
-      <div>
-        <label for="tz">TZ offset:</label>
-        <input id="tz" type="text" size=2 pattern="[0-9\-]{1,2}" inputmode="numeric">
-      </div>
-      <div>
-        <button id="t-back">Back</button>
-        <button id="done">Done</button>
-      </div>
-    </section>
-    <section class="j-output hidden" id="output">
+    <section class="j-output" id="output">
       <dl>
         <dt>Position</dt><dd>
           <span id="o-wp-dist">XX</span> km
-          <span id="o-wp-fuzzy-brg-from">XXXX</span> of
-          <span id="o-wp-name">XX</span></dd>
+          <span id="o-wp-fuzzy-brg-from">XXXX</span></dd>
         <dt>Altitude</dt><dd><span id="o-fp-alt">XXX</span> km ASL</dd>
         <dt>Tracking</dt><dd><span id="o-fp-fuzzy-trk">XXX</span></dd>
         <dt>Speed</dt><dd><span id="o-fp-speed">XXX</span> km/h</dd>
