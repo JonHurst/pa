@@ -11,7 +11,6 @@ function extract_integer_fields(s, n) {
 
 
 function _update(msg, state, draw) {
-    console.log(msg);
     let fields;
     switch(msg.type) {
     case "flight-param-change":
@@ -31,8 +30,11 @@ function _update(msg, state, draw) {
         break;
     case "times-change":
         fields = msg.value.split("/");
-        [state.eta, state.sta, state.tz_offset] =
-            fields || [undefined, undefined, undefined];;
+        if(fields.length == 3) {
+            [state.eta, state.sta, state.tz_offset] = fields;
+        } else {
+            [state.eta, state.sta, state.tz_offset] = [undefined, undefined, undefined];
+        }
         break;
     }
     do_calculation(state);
@@ -134,6 +136,20 @@ function do_wiring(update) {
         update({type: "distances-change", value: ID("distances").value}));
     ID("times").addEventListener("input", () =>
         update({type: "times-change", value: ID("times").value}));
+    ID("clear").addEventListener("click", () => {
+        for(let el of document.getElementsByTagName("input")) {
+            el.value = "";
+        }
+        reparse_all(update);
+    });
+}
+
+
+function reparse_all(update) {
+    update({type: "flight-param-change", value: ID("flight").value});
+    update({type: "waypoint-change", value: ID("waypoint").value});
+    update({type: "distances-change", value: ID("distances").value});
+    update({type: "times-change", value: ID("times").value});
 }
 
 
@@ -153,11 +169,7 @@ function main() {
     let draw = () => _draw(state);
     let update = msg => _update(msg, state, draw);
     do_wiring(update);
-    // browsers sometimes leave fields populated, so update them all to initialise
-    update({type: "flight-param-change", value: ID("flight").value});
-    update({type: "waypoint-change", value: ID("waypoint").value});
-    update({type: "distances-change", value: ID("distances").value});
-    update({type: "times-change", value: ID("times").value});
+    reparse_all(update);
     window.setInterval(() => update({type: "recalc"}), 1000 * 10);
 }
 

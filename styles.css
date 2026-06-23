@@ -60,6 +60,10 @@ button:disabled {
     input:invalid {
         color: var(--fg-color-2);
     }
+    .j-button-bar {
+        grid-column-start: 2;
+        text-align: right;
+    }
 }
 
 .j-output {
