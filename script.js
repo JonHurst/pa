@@ -46,7 +46,7 @@ function fuzzy_bearing(bearing) {
     const zones = [
         "N", "N/NE", "NE", "E/NE", "E", "E/SE", "SE", "S/SE",
         "S", "S/SW", "SW", "W/SW", "W", "W/NW", "NW", "N/NW", "N"];
-    if(!bearing) return "---";
+    if(bearing === undefined) return "---";
     bearing = bearing % 360;
     for(let c = 0; c < zones.length; c++) {
         if(bearing < 11.25 + c * 22.5) {
