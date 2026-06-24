@@ -68,6 +68,7 @@ function fuzzy_bearing(bearing) {
             return zones[c];
         }
     }
+    throw new Error("Function fuzzy_bearing should never reach here!");
 }
 
 
