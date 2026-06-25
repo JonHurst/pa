@@ -85,3 +85,39 @@ button {
         font-weight: bold;
     }
 }
+
+dialog {
+    max-width:45rem;
+    padding: 1.5rem;
+    border: 1px solid black;
+    box-shadow: 0 0 1rem black;
+    line-height: 1.6;
+    code {
+        font-size: 1.05rem;
+        color: darkgreen;
+        white-space: nowrap;
+    }
+    dt {
+        font-weight: bold;
+    }
+    dd {
+        margin: 1rem;
+    }
+    .j-button-bar {
+        text-align: right;
+    }
+    .j-scroll-container {
+        max-height: min(35rem, 50vh);
+        overflow-y: scroll;
+        margin: 2rem;
+    }
+    .j-scrollability-indicator {
+        border: 2px solid gray;
+        border-radius: var(--border-radius);
+        padding: 2rem;
+    }
+}
+
+dialog::backdrop {
+    backdrop-filter: blur(3px);
+}

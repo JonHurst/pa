@@ -13,6 +13,69 @@
   </head>
   <body>
     <header>v1.8</header>
+    <dialog id="help-modal">
+      <div class="j-button-bar">
+        <button id="close-modal">Close</button>
+      </div>
+      <div class="j-scroll-container"><div class="j-scrollability-indicator">
+      <h1>Input Fields</h1>
+
+      <dl>
+        <dt>Flight Parameters</dt>
+        <dd>Three positive integers, separated by spaces. The first is
+          your <b>flight level</b>, the second your <b>magnetic
+          track</b> and the third your <b>ground speed</b> in knots.
+          For example:
+          <code>370 020 455</code> is flight level 370, magnetic track
+          020° and ground speed 455kt.
+        </dd>
+        <dt>Distances</dt>
+        <dd>Two positive integers, separated by spaces. The first is
+          the <b>total sector length</b> in nautical miles, the
+          second is <b>distance to run</b>, also in nautical miles.
+          For example <code>1000 300</code> is a 1000nm sector which
+          has 300nm left to run.</dd>
+        <dt>Times</dt>
+        <dd>Three integers, separated by spaces. The first is
+          destination <b>timezone offset</b>, which is the only entry
+          in the whole form that may be negative. The second
+          is <b>scheduled time of arrival</b> in UTC and the third
+          is <b>estimated time of arrival</b>, also in UTC. For
+          example <code>-2 1000 0950</code> means that the local time
+          at the destination is 2 hours behind UTC, the scheduled
+          arrival is 1000Z and the ETA is 0950Z.</dd>
+        <dt>Waypoint</dt>
+        <dd>Two positive integers, giving the position of a waypoint
+          that you wish to reference your current position to. The
+          first is the <b>bearing to</b> the waypoint and the second
+          is the <b>distance</b> to the waypoint in nautical miles.
+          For example <code>270 100</code> is the position of a
+          waypoint 100nm to the West of you.</dd>
+      </dl>
+      <h1>Output</h1>
+
+      <p>Distances and speeds are converted to statute miles and
+        tracks and bearings are converted to “fuzzy” bearings. The
+        bearing in the <b>Position</b> field is also reversed, so
+        that position relative to the waypoint can be read off.</p>
+
+      <p>Times are provided in terms of UK and destination timezones,
+        including the current local time at destination, and the delay
+        is calculated — a negative delay means running ahead of
+        schedule.</p>
+
+      <p>Additional ways of describing data are also provided: ground
+        speed in terms of the number of seconds required to cover one
+        mile, and the distance to run in terms of the fraction of the
+        journey remaining.</p>
+
+      <p>The <b>Position</b>, <b>Left to run</b>, <b>Fraction
+          remaining</b>
+        and <b>Now (local time)</b> fields are live:
+        they are adjusted to take account of the change in position
+        since the data was entered.</p>
+      </div></div>
+    </dialog>
     <section id="input" class="j-input">
       <label for="flight">Flight Parameters:</label>
       <input id="flight" type="text" inputmode="numeric"
