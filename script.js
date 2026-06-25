@@ -37,7 +37,7 @@ function _update(msg, state, draw) {
     case "distances-change":
         fields = extract_integer_fields(msg.value, 2);
         if(fields) {
-            [state.dist_left, state.dist_total] = fields;
+            [state.dist_total, state.dist_left] = fields;
             state.dist_timestamp = (new Date()).getTime();
             state.valid_distances = true;
         } else {
@@ -47,7 +47,7 @@ function _update(msg, state, draw) {
     case "times-change":
         fields = msg.value.trim().split(/\s+/);
         if(fields.length == 3) {
-            [state.eta, state.sta, state.tz_offset] = fields;
+            [state.tz_offset, state.sta, state.eta] = fields;
             state.valid_times = true;
         } else {
             state.valid_times = false;
