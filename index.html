@@ -19,30 +19,31 @@
              placeholder="level track speed" pattern="[0-9 ]*">
       <label for="distances">Distances:</label>
       <input id="distances" type="text" inputmode="numeric"
-             placeholder="left total" pattern="[0-9 ]*">
+             placeholder="total left" pattern="[0-9 ]*">
       <label for="times">Times:</label>
       <input id="times" type="text" inputmode="numeric"
-             placeholder="eta sta zone" pattern="[0-9 \-]*">
+             placeholder="zone sta eta" pattern="[0-9 \-]*">
       <label for="waypoint">Waypoint:</label>
       <input id="waypoint" type="text" inputmode="numeric"
              placeholder="bearing distance" pattern="[0-9 ]*">
       <div class="j-button-bar">
+        <button id="help">Help</button>
         <button id="clear">Clear</button>
       </div>
     </section>
     <section class="j-output" id="output">
       <dl>
-        <dt>Altitude</dt><dd><span id="o-fp-alt"></span> km</dd>
+        <dt>Altitude</dt><dd><span id="o-fp-alt"></span> miles</dd>
         <dt>Tracking</dt><dd><span id="o-fp-fuzzy-trk"></span></dd>
-        <dt>Ground Speed</dt><dd><span id="o-fp-speed"></span> km/h<br/>
-        <span id="o-fp-secs-per-km"></span> s/km</dd>
+        <dt>Ground Speed</dt><dd><span id="o-fp-speed"></span> mph<br/>
+        <span id="o-fp-secs-per-km"></span> s/mile</dd>
       </dl>
       <dl>
         <dt>Position</dt><dd>
-          <span id="o-wp-dist"></span> km to
+          <span id="o-wp-dist"></span> mile to
           <span id="o-wp-fuzzy-brg-from"></span></dd>
-        <dt>Left to run</dt><dd><span id="o-dist-left"></span> km</dd>
-        <dt>Sector length</dt><dd><span id="o-dist-sector"></span> km</dd>
+        <dt>Left to run</dt><dd><span id="o-dist-left"></span> mile</dd>
+        <dt>Sector length</dt><dd><span id="o-dist-sector"></span> mile</dd>
         <dt>Fraction remaining</dt><dd><span id="o-dist-left-fraction">X</span></dd>
       </dl>
       <dl>

@@ -94,8 +94,9 @@ function do_calculation(state) {
     if(state.valid_flight) {
         out.altitude = (state.fl * 0.03048).toFixed(1);
         out.track = fuzzy_bearing(state.track);
-        out.speed = (state.gs * 1.852).toFixed(0);
-        out.s_per_km = state.gs ? (3600 / (state.gs * 1.852)).toFixed(1) : "---";
+        let speed = state.gs * 1.151
+        out.speed = speed.toFixed(0);
+        out.s_per_km = speed ? (3600 / speed).toFixed(1) : "---";
     } else {
         out.altitude = out.track = out.speed = out.s_per_km = "---";
     }
@@ -103,8 +104,8 @@ function do_calculation(state) {
     if(state.valid_flight && state.valid_distances) {
         let ltr = state.dist_left - state.gs *
             (now - state.dist_timestamp) / 3600000;
-        out.dist_to_run = (ltr * 1.852).toFixed(0);
-        out.total_dist = (state.dist_total*1.852).toFixed(0);
+        out.dist_to_run = (ltr * 1.151).toFixed(0);
+        out.total_dist = (state.dist_total * 1.151).toFixed(0);
         out.fraction_left = state.dist_total ?
             (ltr / state.dist_total).toFixed(2) : "---";
     } else {
@@ -113,7 +114,7 @@ function do_calculation(state) {
     // update bearing and distance based on time since waypoint data entered
     if(state.valid_flight && state.valid_waypoint) {
         let [new_bearing, new_dist] = updated_waypoint_pos(state, now);
-        out.wp_dist = (new_dist * 1.852).toFixed(0);
+        out.wp_dist = (new_dist * 1.151).toFixed(0);
         out.wp_bearing = fuzzy_bearing(new_bearing + 180);
     } else {
         out.wp_dist = out.wp_bearing = "---";
