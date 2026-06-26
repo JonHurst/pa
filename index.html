@@ -66,14 +66,11 @@
 
       <p>Additional ways of describing data are also provided: ground
         speed in terms of the number of seconds required to cover one
-        mile, and the distance to run in terms of the fraction of the
-        journey remaining.</p>
+        mile, and the fraction of the journey completed.</p>
 
-      <p>The <b>Position</b>, <b>Left to run</b>, <b>Fraction
-          remaining</b>
-        and <b>Now (local time)</b> fields are live:
-        they are adjusted to take account of the change in position
-        since the data was entered.</p>
+      <p>The output is live: it updates every ten seconds to take
+        account of changes in position and time since the input data
+        was entered.</p>
       </div></div>
     </dialog>
     <section id="input" class="j-input">
@@ -103,11 +100,11 @@
       </dl>
       <dl>
         <dt>Position</dt><dd>
-          <span id="o-wp-dist"></span> mile to
+          <span id="o-wp-dist"></span> miles to
           <span id="o-wp-fuzzy-brg-from"></span></dd>
         <dt>Left to run</dt><dd><span id="o-dist-left"></span> mile</dd>
         <dt>Sector length</dt><dd><span id="o-dist-sector"></span> mile</dd>
-        <dt>Fraction remaining</dt><dd><span id="o-dist-left-fraction">X</span></dd>
+        <dt>Fraction Complete</dt><dd><span id="o-fraction"></span></dd>
       </dl>
       <dl>
         <dt>ETA (UK time)</dt><dd><span id="o-eta-uk"></span></dd>

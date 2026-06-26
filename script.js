@@ -94,7 +94,7 @@ function do_calculation(state) {
     if(state.valid_flight) {
         out.altitude = (state.fl * 0.03048).toFixed(1);
         out.track = fuzzy_bearing(state.track);
-        let speed = state.gs * 1.151
+        let speed = state.gs * 1.151;
         out.speed = speed.toFixed(0);
         out.s_per_km = speed ? (3600 / speed).toFixed(1) : "---";
     } else {
@@ -106,10 +106,10 @@ function do_calculation(state) {
             (now - state.dist_timestamp) / 3600000;
         out.dist_to_run = (ltr * 1.151).toFixed(0);
         out.total_dist = (state.dist_total * 1.151).toFixed(0);
-        out.fraction_left = state.dist_total ?
-            (ltr / state.dist_total).toFixed(2) : "---";
+        out.fraction = state.dist_total ?
+            ((state.dist_total - ltr) / state.dist_total).toFixed(2) : "---";
     } else {
-        out.dist_to_run = out.total_dist = out.fraction_left = "---";
+        out.dist_to_run = out.total_dist = out.fraction = "---";
     }
     // update bearing and distance based on time since waypoint data entered
     if(state.valid_flight && state.valid_waypoint) {
@@ -146,7 +146,7 @@ function draw(out) {
     ID("o-fp-secs-per-km").innerText = out.s_per_km;
     ID("o-dist-left").innerText = out.dist_to_run;
     ID("o-dist-sector").innerText = out.total_dist;
-    ID("o-dist-left-fraction").innerText = out.fraction_left;
+    ID("o-fraction").innerText = out.fraction;
     ID("o-wp-dist").innerText = out.wp_dist;
     ID("o-wp-fuzzy-brg-from").innerText = out.wp_bearing;
     ID("o-eta-uk").innerText = out.eta_uk;
