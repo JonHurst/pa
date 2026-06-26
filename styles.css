@@ -26,14 +26,6 @@ header {
     color: white;
 }
 
-section {
-    background-color: var(--bg-color);
-    border: var(--border);
-    border-radius: var(--border-radius);
-    margin: var(--margin);
-    padding: var(--padding);
-}
-
 button {
     border: var(--border);
     border-radius: var(--border-radius);
@@ -44,6 +36,14 @@ button {
     color: var(--fg-color);
     background-color: var(--bg-color-1);
     font-size: 1rem;
+}
+
+.j-input, .j-output {
+    background-color: var(--bg-color);
+    border: var(--border);
+    border-radius: var(--border-radius);
+    margin: var(--margin);
+    padding: var(--padding);
 }
 
 .j-input {
@@ -71,22 +71,27 @@ button {
 }
 
 .j-output {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    dl {
-        margin-left: calc(var(--margin) * 2);
+    table {
+        border-collapse: collapse;
+        margin: 1rem auto;
+        border: 1px solid gray;
     }
-    dt {
-        font-weight: bold;
-        margin-top: 1rem;
+    tr {
+        border: 1px solid gray;
     }
-    dd {
-        margin: 1rem;
-        font-size: 1.5rem;
+    th, td {
+        width: 12rem;
+        padding: 0.5rem;
+        text-align: left;
+        vertical-align: top;
+    }
+    td {
+        font-size: 1.25rem;
     }
     span {
         color: var(--fg-color-1);
         font-weight: bold;
+        padding: 0 0.5rem;
     }
 }
 

@@ -73,7 +73,7 @@
         was entered.</p>
       </div></div>
     </dialog>
-    <section id="input" class="j-input">
+    <div id="input" class="j-input">
       <label for="flight">Flight Parameters:</label>
       <input id="flight" type="text" inputmode="numeric"
              placeholder="level track speed" pattern="[0-9 ]*">
@@ -90,31 +90,29 @@
         <button id="help">Help</button>
         <button id="clear">Clear</button>
       </div>
-    </section>
-    <section class="j-output" id="output">
-      <dl>
-        <dt>Altitude</dt><dd><span id="o-fp-alt"></span> miles</dd>
-        <dt>Tracking</dt><dd><span id="o-fp-fuzzy-trk"></span></dd>
-        <dt>Ground Speed</dt><dd><span id="o-fp-speed"></span> mph<br/>
-        <span id="o-fp-secs-per-km"></span> s/mile</dd>
-      </dl>
-      <dl>
-        <dt>Position</dt><dd>
+    </div>
+    <div class="j-output" id="output">
+      <table>
+        <tr><th>Altitude</th><td><span id="o-fp-alt"></span> miles</td></tr>
+        <tr><th>Tracking</th><td><span id="o-fp-fuzzy-trk"></span></td></tr>
+        <tr><th>Ground Speed</th><td><span id="o-fp-speed"></span> mph<br>
+        <span id="o-fp-secs-per-km"></span> seconds/mile</td></tr>
+      </table>
+      <table>
+        <tr><th>Position</th><td>
           <span id="o-wp-dist"></span> miles to
-          <span id="o-wp-fuzzy-brg-from"></span></dd>
-        <dt>Left to run</dt><dd><span id="o-dist-left"></span> mile</dd>
-        <dt>Sector length</dt><dd><span id="o-dist-sector"></span> mile</dd>
-        <dt>Fraction Complete</dt><dd><span id="o-fraction"></span></dd>
-      </dl>
-      <dl>
-        <dt>ETA (UK time)</dt><dd><span id="o-eta-uk"></span></dd>
-        <dt>ETA (local time)</dt><dd><span id="o-eta-l"></span></dd>
-      </dl>
-      <dl>
-        <dt>Now (local time)</dt><dd><span id="o-now-l"></span></dd>
-        <dt>Delay</dt><dd><span id="o-delay"></span> minutes</dd>
-      </dl>
-    </section>
+          <span id="o-wp-fuzzy-brg-from"></span></td></tr>
+        <tr><th>Left to run</th><td><span id="o-dist-left"></span> miles</td></tr>
+        <tr><th>Sector length</th><td><span id="o-dist-sector"></span> miles</td></tr>
+        <tr><th>Fraction Complete</th><td><span id="o-fraction"></span></td></tr>
+      </table>
+      <table>
+        <tr><th>ETA (UK time)</th><td><span id="o-eta-uk"></span></td></tr>
+        <tr><th>ETA (local time)</th><td><span id="o-eta-l"></span></td></tr>
+        <tr><th>Now (local time)</th><td><span id="o-now-l"></span></td></tr>
+        <tr><th>Delay</th><td><span id="o-delay"></span> minutes</td></tr>
+      </table>
+    </div>
 
   </body>
 </html>
