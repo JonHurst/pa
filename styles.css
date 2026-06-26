@@ -50,6 +50,7 @@ button {
     display:grid;
     grid-template-columns: 9rem 1fr;
     row-gap: 1rem;
+    padding-top: 2rem;
     input {
         font-size: 1.25rem;
     }
