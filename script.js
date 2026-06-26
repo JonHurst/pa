@@ -96,7 +96,7 @@ function do_calculation(state) {
         out.track = fuzzy_bearing(state.track);
         let speed = state.gs * 1.151;
         out.speed = speed.toFixed(0);
-        out.s_per_km = speed ? (3600 / speed).toFixed(1) : "---";
+        out.inverse_speed = speed ? (3600 / speed).toFixed(1) : "---";
     } else {
         out.altitude = out.track = out.speed = out.s_per_km = "---";
     }
@@ -143,7 +143,7 @@ function draw(out) {
     ID("o-fp-alt").innerText = out.altitude;
     ID("o-fp-fuzzy-trk").innerText = out.track;
     ID("o-fp-speed").innerText = out.speed;
-    ID("o-fp-secs-per-km").innerText = out.s_per_km;
+    ID("o-inverse-speed").innerText = out.inverse_speed;
     ID("o-dist-left").innerText = out.dist_to_run;
     ID("o-dist-sector").innerText = out.total_dist;
     ID("o-fraction").innerText = out.fraction;
