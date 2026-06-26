@@ -48,17 +48,17 @@ button {
 
 .j-input {
     display:grid;
-    grid-template-columns: 9rem 1fr;
+    grid-template-columns: 10rem 1fr;
     row-gap: 1rem;
     padding-top: 2rem;
     input {
         font-size: 1.25rem;
-        border: 1px solid gray;
+        border: var(--border);
         border-radius: var(--border-radius);
         padding: 0.25rem;
     }
     input::placeholder {
-        color: #AAAA;
+        color: var(--bg-color-2);
         font-size: 1rem;
     }
     input:invalid {
@@ -74,10 +74,10 @@ button {
     table {
         border-collapse: collapse;
         margin: 1rem auto;
-        border: 1px solid gray;
+        border: var(--border);
     }
     tr {
-        border: 1px solid gray;
+        border: var(--border);
     }
     th, td {
         width: 12rem;
@@ -98,12 +98,12 @@ button {
 dialog {
     max-width:45rem;
     padding: 1.5rem;
-    border: 1px solid black;
-    box-shadow: 0 0 1rem black;
+    border: var(--border);
+    border-radius: var(--border-radius);
     line-height: 1.6;
     code {
         font-size: 1.05rem;
-        color: darkgreen;
+        color: var(--fg-color-1);
         white-space: nowrap;
     }
     dt {
@@ -118,15 +118,15 @@ dialog {
     .j-scroll-container {
         max-height: min(35rem, 50vh);
         overflow-y: scroll;
-        margin: 2rem;
+        margin: 2rem 1rem;
     }
     .j-scrollability-indicator {
-        border: 2px solid gray;
+        border: var(--border);
         border-radius: var(--border-radius);
         padding: 2rem;
     }
 }
 
 dialog::backdrop {
-    backdrop-filter: blur(3px);
+    backdrop-filter: blur(2px);
 }
