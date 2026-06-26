@@ -98,7 +98,7 @@ function do_calculation(state) {
         out.speed = speed.toFixed(0);
         out.inverse_speed = speed ? (3600 / speed).toFixed(1) : "---";
     } else {
-        out.altitude = out.track = out.speed = out.s_per_km = "---";
+        out.altitude = out.track = out.speed = out.inverse_speed = "---";
     }
     // update distance to run based on time since distance data entered
     if(state.valid_flight && state.valid_distances) {
