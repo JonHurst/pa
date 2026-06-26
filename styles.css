@@ -58,7 +58,7 @@ button {
         padding: 0.25rem;
     }
     input::placeholder {
-        color: var(--bg-color-2);
+        color: #CCC;
         font-size: 1rem;
     }
     input:invalid {
@@ -80,13 +80,16 @@ button {
         border: var(--border);
     }
     th, td {
-        width: 12rem;
         padding: 0.5rem;
         text-align: left;
         vertical-align: top;
     }
+    th {
+        width: 10rem;
+    }
     td {
         font-size: 1.25rem;
+        width: 15rem;
     }
     span {
         color: var(--fg-color-1);
