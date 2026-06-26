@@ -123,6 +123,9 @@ dialog {
         overflow-y: scroll;
         margin: 2rem 1rem;
     }
+    .j-scroll-container:focus {
+        outline: none;
+    }
     .j-scrollability-indicator {
         border: var(--border);
         border-radius: var(--border-radius);

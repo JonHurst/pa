@@ -171,7 +171,10 @@ function do_wiring(update) {
         }
         reparse_all(update);
     });
-    ID("help").addEventListener("click", () => ID("help-modal").showModal());
+    ID("help").addEventListener("click", () => {
+        ID("help-modal").showModal();
+        ID("help-scroll-container").focus();
+    });
     ID("close-modal").addEventListener("click", () => {
         ID("help-modal").close();
     });
