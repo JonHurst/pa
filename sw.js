@@ -26,7 +26,8 @@ self.addEventListener('install', evt => {
 self.addEventListener("activate", (event) => {
     event.waitUntil(
         caches.keys()
-            .then(key_list => key_list.filter(k => k != CACHE))
+            .then(key_list => key_list.filter(k =>
+                k.startsWith("pa_cache") && k != CACHE))
             .then(del_list => Promise.all(
                 del_list.map(k => caches.delete(k))
             ))
