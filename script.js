@@ -138,19 +138,19 @@ function do_calculation(state) {
 
 
 function draw(out) {
-    ID("o-fp-alt").innerText = out.altitude;
-    ID("o-fp-fuzzy-trk").innerText = out.track;
-    ID("o-fp-speed").innerText = out.speed;
-    ID("o-inverse-speed").innerText = out.inverse_speed;
-    ID("o-dist-left").innerText = out.dist_to_run;
-    ID("o-dist-sector").innerText = out.total_dist;
-    ID("o-fraction").innerText = out.fraction;
-    ID("o-wp-dist").innerText = out.wp_dist;
-    ID("o-wp-fuzzy-brg-from").innerText = out.wp_bearing;
-    ID("o-eta-uk").innerText = out.eta_uk;
-    ID("o-eta-l").innerText = out.eta_l;
-    ID("o-now-l").innerText = out.now_l;
-    ID("o-delay").innerText = out.delay;
+    for(let [id, val] of [
+        ["o-fp-alt", out.altitude],
+        ["o-fp-fuzzy-trk", out.track],
+        ["o-fp-speed", out.speed], ["o-inverse-speed", out.inverse_speed],
+        ["o-dist-left", out.dist_to_run], ["o-dist-sector", out.total_dist],
+        ["o-fraction", out.fraction],
+        ["o-wp-dist", out.wp_dist],
+        ["o-wp-fuzzy-brg-from", out.wp_bearing],
+        ["o-eta-uk", out.eta_uk], ["o-eta-l", out.eta_l],
+        ["o-now-l", out.now_l], ["o-delay", out.delay]
+    ]) {
+        ID(id).innerText = val;
+    }
 }
 
 
