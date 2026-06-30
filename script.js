@@ -45,8 +45,12 @@ function _update(msg, state, draw) {
         state.valid_times = false;
         fields = msg.value.trim().split(/\s+/);
         if(fields.length == 3) {
-            [state.tz_offset, state.sta, state.eta] = fields;
-            state.valid_times = true;
+            state.tz_offset = parseInt(fields[0]);
+            state.sta = DateTime.fromFormat(fields[1], "HHmm", { zone: "UTC" });
+            state.eta = DateTime.fromFormat(fields[2], "HHmm", { zone: "UTC" });
+            if(!isNaN(state.tz_offset) && state.sta.isValid && state.eta.isValid) {
+                state.valid_times = true;
+            }
         }
         break;
     }
@@ -115,17 +119,15 @@ function do_calculation(state) {
     } else {
         out.wp_dist = out.wp_bearing = "---";
     }
-    // date calculation uses luxon
+    // date calculation using luxon
     if(state.valid_times) {
-        let eta_z = DateTime.fromFormat(state.eta, "HHmm", { zone: "UTC" });
-        let sta_z = DateTime.fromFormat(state.sta, "HHmm", { zone: "UTC" });
         let zone = state.tz_offset < 0
             ? `UTC-${-state.tz_offset}`
             : `UTC+${state.tz_offset}`;
-        out.eta_l = eta_z.setZone(zone).toFormat("HH:mm");
-        out.eta_uk = eta_z.setZone("Europe/London").toFormat("HH:mm");
+        out.eta_l = state.eta.setZone(zone).toFormat("HH:mm");
+        out.eta_uk = state.sta.setZone("Europe/London").toFormat("HH:mm");
         out.now_l = DateTime.now().setZone(zone).toFormat("HH:mm");
-        out.delay = Math.round((eta_z - sta_z) / 60000);
+        out.delay = Math.round((state.eta - state.sta) / 60000);
     }
     else {
         out.eta_l = out.eta_uk = out.now_l = "--:--";
