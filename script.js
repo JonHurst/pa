@@ -16,41 +16,37 @@ function _update(msg, state, draw) {
     let fields;
     switch(msg.type) {
     case "flight-param-change":
+        state.valid_flight = false;
         fields = extract_integer_fields(msg.value, 3);
         if(fields) {
             [state.fl, state.track, state.gs] = fields;
             state.valid_flight = true;
-        } else {
-            state.valid_flight = false;
         }
         break;
     case "waypoint-change":
+        state.valid_waypoint = false;
         fields = extract_integer_fields(msg.value, 2);
         if(fields) {
             [state.wp_bearing, state.wp_distance] = fields;
             state.wp_timestamp = (new Date()).getTime();
             state.valid_waypoint = true;
-        } else {
-            state.valid_waypoint = false;
         }
         break;
     case "distances-change":
+        state.valid_distances = false;
         fields = extract_integer_fields(msg.value, 2);
         if(fields) {
             [state.dist_total, state.dist_left] = fields;
             state.dist_timestamp = (new Date()).getTime();
             state.valid_distances = true;
-        } else {
-            state.valid_distances = false;
         }
         break;
     case "times-change":
+        state.valid_times = false;
         fields = msg.value.trim().split(/\s+/);
         if(fields.length == 3) {
             [state.tz_offset, state.sta, state.eta] = fields;
             state.valid_times = true;
-        } else {
-            state.valid_times = false;
         }
         break;
     }
