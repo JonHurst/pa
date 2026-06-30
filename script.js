@@ -5,7 +5,7 @@ const ID = id => document.getElementById(id);
 
 
 function extract_integer_fields(s, n) {
-    let fields = s.split(/\s+/)
+    let fields = s.trim().split(/\s+/)
         .map(i => Number(i))
         .filter(i => !isNaN(i));
     return fields.length == n ? fields : null;
