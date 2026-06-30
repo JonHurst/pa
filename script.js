@@ -6,7 +6,7 @@ const ID = id => document.getElementById(id);
 
 function extract_integer_fields(s, n) {
     let fields = s.split(/\s+/)
-        .map(i => parseInt(i))
+        .map(i => Number(i))
         .filter(i => !isNaN(i));
     return fields.length == n ? fields : null;
 }
@@ -45,7 +45,7 @@ function _update(msg, state, draw) {
         state.valid_times = false;
         fields = msg.value.trim().split(/\s+/);
         if(fields.length == 3) {
-            state.tz_offset = parseInt(fields[0]);
+            state.tz_offset = Number(fields[0]);
             state.sta = DateTime.fromFormat(fields[1], "HHmm", { zone: "UTC" });
             state.eta = DateTime.fromFormat(fields[2], "HHmm", { zone: "UTC" });
             if(!isNaN(state.tz_offset) && state.sta.isValid && state.eta.isValid) {
@@ -54,7 +54,9 @@ function _update(msg, state, draw) {
         }
         break;
     }
-    draw(do_calculation(state));
+    draw(do_calculation(state),
+         {f: state.valid_flight, w: state.valid_waypoint,
+          d: state.valid_distances, t: state.valid_times});
 }
 
 
@@ -137,7 +139,7 @@ function do_calculation(state) {
 }
 
 
-function draw(out) {
+function draw(out, input_validity) {
     for(let [id, val] of [
         ["o-fp-alt", out.altitude],
         ["o-fp-fuzzy-trk", out.track],
@@ -150,6 +152,15 @@ function draw(out) {
         ["o-now-l", out.now_l], ["o-delay", out.delay]
     ]) {
         ID(id).innerText = val;
+    }
+    for(let [id, val] of [
+        ["flight", input_validity.f], ["waypoint", input_validity.w],
+        ["distances", input_validity.d], ["times", input_validity.t]]) {
+        if(val) {
+            ID(id).classList.add("valid");
+        } else {
+            ID(id).classList.remove("valid");
+        }
     }
 }
 
