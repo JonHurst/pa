@@ -152,6 +152,7 @@ function draw(out, input_validity) {
         ["o-now-l", out.now_l], ["o-delay", out.delay]
     ]) {
         ID(id).innerText = val;
+        ID("o-m" + id.slice(1)).innerText = val; //mobile
     }
     for(let [id, val] of [
         ["flight", input_validity.f], ["waypoint", input_validity.w],

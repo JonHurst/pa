@@ -1,29 +1,32 @@
 :root {
-    --border: 1px solid gray;
+    --border: 1px solid #AAA;
     --border-radius: 0.3rem;
     --padding: 1rem;
     --margin: 1rem;
     --bg-color: white;
-    --bg-color-1: #EFE;
-    --bg-color-2: #EEE;
+    --bg-color-1: #EEE;
+    --bg-color-2: #EFE;
+    --bg-color-3: #DFD;
     --fg-color: black;
     --fg-color-1: #070;
     --fg-color-2: #A00;
 }
 
 body {
-    background-color: gray;
-    color: black;
-    display: grid;
+    background-color: var(--bg-color-1);
+    color: var(--fg-color);
     font-family: Helvetica, Arial, sans-serif;
+    display: grid;
     max-width: 40rem;
     margin: auto;
+    &:has(dialog[open]) {
+        overflow: hidden;
+    }
 }
 
 header {
     text-align: right;
     font-size: 0.8rem;
-    color: white;
 }
 
 button {
@@ -34,23 +37,22 @@ button {
     height: 2.5rem;
     width: 5rem;
     color: var(--fg-color);
-    background-color: var(--bg-color-1);
+    background-color: var(--bg-color-2);
     font-size: 1rem;
-}
-
-.j-input, .j-output {
-    background-color: var(--bg-color);
-    border: var(--border);
-    border-radius: var(--border-radius);
-    margin: var(--margin);
-    padding: var(--padding);
+    &:hover {
+        background-color: var(--bg-color-3);
+    }
 }
 
 .j-input {
     display:grid;
     grid-template-columns: 10rem 1fr;
     row-gap: 1rem;
-    padding-top: 2rem;
+    background-color: var(--bg-color);
+    border: var(--border);
+    border-radius: var(--border-radius);
+    margin: var(--margin);
+    padding: var(--padding);
     input {
         font-size: 1.25rem;
         border: var(--border);
@@ -68,12 +70,17 @@ button {
         color: var(--fg-color-1);
     }
     .j-button-bar {
-        grid-column-start: 2;
+        grid-column: 2;
         text-align: right;
     }
 }
 
 .j-output {
+    background-color: var(--bg-color);
+    border: var(--border);
+    border-radius: var(--border-radius);
+    margin: var(--margin);
+    padding: var(--padding);
     table {
         border-collapse: collapse;
         margin: 1rem auto;
@@ -101,9 +108,38 @@ button {
     }
 }
 
+.j-m-output {
+    display: none;
+    min-width: 14rem;
+    margin-bottom: 3rem;  /*added for Firefox mobile w/keyboard*/
+    table {
+        background-color: var(--bg-color);
+        border: var(--border);
+        border-collapse: collapse;
+        border-radius: var(--border-radius);
+        width: calc(100% - 2 * var(--margin));
+        margin: var(--margin);
+    }
+    th {
+        text-align: left;
+        padding: calc(var(--padding) / 2);
+        border-top: var(--border);
+    }
+    td {
+        text-align: center;
+        font-size: 1.25rem;
+        padding-bottom: var(--padding);
+    }
+    span {
+        color: var(--fg-color-1);
+        font-weight: bold;
+    }
+}
+
+
 dialog {
     max-width:45rem;
-    padding: 1.5rem;
+    padding: 0.5rem;
     border: var(--border);
     border-radius: var(--border-radius);
     line-height: 1.6;
@@ -120,11 +156,11 @@ dialog {
     }
     .j-button-bar {
         text-align: right;
+        margin-bottom: 1rem;
     }
     .j-scroll-container {
         max-height: min(35rem, 50vh);
         overflow-y: scroll;
-        margin: 2rem 1rem;
     }
     .j-scroll-container:focus {
         outline: none;
@@ -133,9 +169,32 @@ dialog {
         border: var(--border);
         border-radius: var(--border-radius);
         padding: 2rem;
+        margin: 1rem;
+    }
+    &::backdrop {
+        backdrop-filter: blur(2px);
     }
 }
 
-dialog::backdrop {
-    backdrop-filter: blur(2px);
+
+@media (max-width: 30rem ) {
+    .j-output {
+        display: none;
+    }
+    .j-m-output {
+        display: block;
+    }
+    .j-input {
+        grid-template-columns: 1fr;
+        .j-button-bar {
+            grid-column: 1;
+        }
+    }
+    dialog {
+        padding: 0.2rem;
+        .j-scrollability-indicator {
+            padding: 0.5rem;
+            margin: 0.5rem;
+        }
+    }
 }
