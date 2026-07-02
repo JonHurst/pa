@@ -1,25 +1,26 @@
 :root {
-    --border: 1px solid #AAA;
-    --border-radius: 0.3rem;
+    --border-color: #AAA;
+    --border: 1px solid var(--border-color);
+    --border-radius: .5rem;
     --padding: 1rem;
     --margin: 1rem;
     --bg-color: white;
     --bg-color-1: #EEE;
     --bg-color-2: #EFE;
-    --bg-color-3: #DFD;
+    --bg-color-3: #CFC;
+    --bg-color-4: #AFA;
     --fg-color: black;
-    --fg-color-1: #070;
-    --fg-color-2: #A00;
+    --fg-color-1: #090;
+    --fg-color-2: #B00;
 }
 
 body {
-    background-color: var(--bg-color-1);
+    background-color: var(--bg-color);
     color: var(--fg-color);
     font-family: Helvetica, Arial, sans-serif;
-    display: grid;
-    max-width: 40rem;
-    margin: auto;
-    &:has(dialog[open]) {
+    max-width: 30rem;
+    margin: 0 auto 4rem; /*extra margin at bottom for Firefox mobile*/
+    &:has(dialog[open]) { /*prevent scrolling when dialog open*/
         overflow: hidden;
     }
 }
@@ -27,6 +28,7 @@ body {
 header {
     text-align: right;
     font-size: 0.8rem;
+    padding-right: var(--padding);
 }
 
 button {
@@ -37,21 +39,20 @@ button {
     height: 2.5rem;
     width: 5rem;
     color: var(--fg-color);
-    background-color: var(--bg-color-2);
+    background-color: var(--bg-color-3);
     font-size: 1rem;
     &:hover {
-        background-color: var(--bg-color-3);
+        background-color: var(--bg-color-4);
     }
 }
 
 .j-input {
-    display:grid;
+    display: grid;
     grid-template-columns: 10rem 1fr;
     row-gap: 1rem;
-    background-color: var(--bg-color);
-    border: var(--border);
-    border-radius: var(--border-radius);
-    margin: var(--margin);
+    background-color: var(--bg-color-2);
+    border-top: var(--border);
+    border-bottom: var(--border);
     padding: var(--padding);
     input {
         font-size: 1.25rem;
@@ -60,7 +61,7 @@ button {
         padding: 0.25rem;
     }
     input::placeholder {
-        color: #CCC;
+        color: var(--border-color);
         font-size: 1rem;
     }
     input:invalid {
@@ -76,30 +77,24 @@ button {
 }
 
 .j-output {
+    display: grid;
+    grid-template-columns: 10rem 1fr;
     background-color: var(--bg-color);
-    border: var(--border);
-    border-radius: var(--border-radius);
-    margin: var(--margin);
-    padding: var(--padding);
-    table {
-        border-collapse: collapse;
-        margin: 1rem auto;
-        border: var(--border);
-    }
-    tr {
-        border: var(--border);
-    }
-    th, td {
-        padding: 0.5rem;
+    margin: calc(2 * var(--margin)) 0;
+    .j-output-label {
         text-align: left;
-        vertical-align: top;
+        font-weight: bold;
+        border-bottom: var(--border);
+        padding-left: var(--padding);
     }
-    th {
-        width: 10rem;
-    }
-    td {
+    .j-result {
+        text-align: center;
         font-size: 1.25rem;
-        width: 15rem;
+        padding: var(--padding);
+        border-bottom: var(--border);
+    }
+    .j-output-label:first-child, .j-result:nth-child(2) {
+        border-top: var(--border);
     }
     span {
         color: var(--fg-color-1);
@@ -107,35 +102,6 @@ button {
         padding: 0 0.5rem;
     }
 }
-
-.j-m-output {
-    display: none;
-    min-width: 14rem;
-    margin-bottom: 3rem;  /*added for Firefox mobile w/keyboard*/
-    table {
-        background-color: var(--bg-color);
-        border: var(--border);
-        border-collapse: collapse;
-        border-radius: var(--border-radius);
-        width: calc(100% - 2 * var(--margin));
-        margin: var(--margin);
-    }
-    th {
-        text-align: left;
-        padding: calc(var(--padding) / 2);
-        border-top: var(--border);
-    }
-    td {
-        text-align: center;
-        font-size: 1.25rem;
-        padding-bottom: var(--padding);
-    }
-    span {
-        color: var(--fg-color-1);
-        font-weight: bold;
-    }
-}
-
 
 dialog {
     max-width:45rem;
@@ -178,16 +144,19 @@ dialog {
 
 
 @media (max-width: 30rem ) {
-    .j-output {
-        display: none;
-    }
-    .j-m-output {
-        display: block;
-    }
     .j-input {
         grid-template-columns: 1fr;
         .j-button-bar {
             grid-column: 1;
+        }
+    }
+    .j-output {
+        grid-template-columns: 1fr;
+        .j-output-label {
+            border-bottom: none;
+        }
+        .j-result:nth-child(2) {
+            border-top: none;
         }
     }
     dialog {
