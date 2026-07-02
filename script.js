@@ -127,7 +127,7 @@ function do_calculation(state) {
             ? `UTC-${-state.tz_offset}`
             : `UTC+${state.tz_offset}`;
         out.eta_l = state.eta.setZone(zone).toFormat("HH:mm");
-        out.eta_uk = state.sta.setZone("Europe/London").toFormat("HH:mm");
+        out.eta_uk = state.eta.setZone("Europe/London").toFormat("HH:mm");
         out.now_l = DateTime.now().setZone(zone).toFormat("HH:mm");
         out.delay = Math.round((state.eta - state.sta) / 60000);
     }
