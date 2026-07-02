@@ -178,6 +178,7 @@ function do_wiring(update) {
         for(let el of document.getElementsByTagName("input")) {
             el.value = "";
         }
+        ID("flight").focus();
         reparse_all(update);
     });
     ID("help").addEventListener("click", () => {
