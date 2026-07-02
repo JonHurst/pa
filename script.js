@@ -106,6 +106,10 @@ function do_calculation(state) {
     if(state.valid_flight && state.valid_distances) {
         let ltr = state.dist_left - state.gs *
             (now - state.dist_timestamp) / 3600000;
+        // don't allow distance left to run to go negative
+        if(ltr < 0) {
+            ltr = 0;
+        }
         out.dist_to_run = (ltr * 1.151).toFixed(0);
         out.total_dist = (state.dist_total * 1.151).toFixed(0);
         out.fraction = state.dist_total ?
