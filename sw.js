@@ -1,4 +1,4 @@
-const CACHE = 'pa_cache.1.15';
+const CACHE = 'pa_cache.1.16';
 const MANIFEST = [
     "index.html",
     "styles.css",
