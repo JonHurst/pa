@@ -94,7 +94,7 @@ function do_calculation(state) {
     let out = {};
     let now = (new Date()).getTime();
     if(state.valid_flight) {
-        out.altitude = (state.fl * 0.03048).toFixed(1);
+        out.altitude = (state.fl * 0.01894).toFixed(1);
         out.track = fuzzy_bearing(state.track);
         let speed = state.gs * 1.151;
         out.speed = speed.toFixed(0);
