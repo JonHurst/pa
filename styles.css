@@ -62,6 +62,7 @@ button {
         border: var(--border);
         border-radius: var(--border-radius);
         padding: 0.25rem;
+        min-width: 12rem; /*explicit min-width to avoid Chrome overflow*/
     }
     input::placeholder {
         color: var(--border-color);
