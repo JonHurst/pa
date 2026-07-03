@@ -136,7 +136,7 @@ function do_calculation(state) {
         out.delay = Math.round((state.eta - state.sta) / 60000);
         // adjust delay to be ±12 hours to correct for eta/sta
         // straddling midnight UTC
-        if(out.delay < 60 * 12) {
+        if(out.delay < -60 * 12) {
             out.delay += 60 * 24;
         } else if(out.delay > 60 * 12) {
             out.delay -= 60 * 24;
