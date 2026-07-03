@@ -1,16 +1,19 @@
 :root {
     --border-color: #AAA;
     --border: 1px solid var(--border-color);
-    --border-radius: .5rem;
-    --padding: 1rem;
-    --margin: 1rem;
+    --border-radius: .25rem;
+    --spacing-m: 0.9rem;
+    --spacing-xs: calc(var(--spacing-m) / 4);
+    --spacing-s: calc(var(--spacing-m) / 2);
+    --spacing-l: calc(var(--spacing-m) * 2);
+    --spacing-xl: calc(var(--spacing-m) * 4);
     --bg-color: white;
     --bg-color-1: #EEE;
     --bg-color-2: #EFE;
     --bg-color-3: #CFC;
     --bg-color-4: #AFA;
     --fg-color: black;
-    --fg-color-1: #090;
+    --fg-color-1: #080;
     --fg-color-2: #B00;
 }
 
@@ -18,7 +21,8 @@ body {
     background-color: var(--bg-color);
     color: var(--fg-color);
     font-family: Helvetica, Arial, sans-serif;
-    max-width: 30rem;
+    line-height: 1.6;
+    max-width: 35rem;
     margin: 0 auto 4rem; /*extra margin at bottom for Firefox mobile*/
     &:has(dialog[open]) { /*prevent scrolling when dialog open*/
         overflow: hidden;
@@ -28,15 +32,15 @@ body {
 header {
     text-align: right;
     font-size: 0.8rem;
-    padding-right: calc(0.5 * var(--padding));
+    padding-right: var(--spacing-xs);
     color: var(--border-color);
 }
 
 button {
     border: var(--border);
     border-radius: var(--border-radius);
-    padding: calc(var(--padding) / 2) var(--padding);
-    margin: calc(var(--margin) / 4);
+    padding: var(--spacing-s) var(--spacing-m);
+    margin: var(--spacing-xs);
     height: 2.5rem;
     width: 5rem;
     color: var(--fg-color);
@@ -51,17 +55,17 @@ button {
 
 .j-input {
     display: grid;
-    grid-template-columns: 10rem 1fr;
-    row-gap: 1rem;
+    grid-template-columns: 11rem 1fr;
     background-color: var(--bg-color-2);
     border-top: var(--border);
     border-bottom: var(--border);
-    padding: var(--padding);
+    padding: var(--spacing-l) var(--spacing-m) var(--spacing-s);
     input {
         font-size: 1.25rem;
         border: var(--border);
         border-radius: var(--border-radius);
-        padding: 0.25rem;
+        padding: var(--spacing-s);
+        margin-bottom: var(--spacing-m);
         min-width: 12rem; /*explicit min-width to avoid Chrome overflow*/
     }
     input::placeholder {
@@ -82,19 +86,19 @@ button {
 
 .j-output {
     display: grid;
-    grid-template-columns: 10rem 1fr;
+    grid-template-columns: 11rem 1fr;
     background-color: var(--bg-color);
-    margin: calc(2 * var(--margin)) 0;
+    margin: var(--spacing-xl) 0;
     .j-output-label {
         text-align: left;
         font-weight: bold;
         border-bottom: var(--border);
-        padding-left: var(--padding);
+        padding: var(--spacing-xs) var(--spacing-m);
     }
     .j-result {
         text-align: center;
         font-size: 1.25rem;
-        padding: var(--padding);
+        padding: var(--spacing-m);
         border-bottom: var(--border);
     }
     .j-output-label:first-child, .j-result:nth-child(2) {
@@ -112,7 +116,6 @@ dialog {
     padding: 0.5rem;
     border: var(--border);
     border-radius: var(--border-radius);
-    line-height: 1.6;
     code {
         font-size: 1.05rem;
         color: var(--fg-color-1);
@@ -129,7 +132,7 @@ dialog {
         margin-bottom: 1rem;
     }
     .j-scroll-container {
-        max-height: min(35rem, 50vh);
+        max-height: 70vh;
         overflow-y: scroll;
     }
     .j-scroll-container:focus {
