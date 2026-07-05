@@ -211,17 +211,8 @@ function reparse_all(update) {
 
 
 function main() {
-    navigator?.serviceWorker?.register('sw.js').then(r => {
-        r.addEventListener('updatefound', () => {
-            let new_sw = r.installing;
-            new_sw.addEventListener("statechange", () => {
-                if(new_sw.state == "activated") {
-                    window.location.reload();
-                }
-            });
-        });
-        window.setInterval(() => r.update(), 1000 * 60);
-    });
+    navigator?.serviceWorker?.register('sw.js').then( r =>
+        window.setInterval(() => r.update(), 1000 * 600));
     let state = {};
     let update = msg => _update(msg, state, draw);
     do_wiring(update);
