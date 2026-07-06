@@ -49,6 +49,13 @@ function _update(msg, state, draw) {
             state.sta = DateTime.fromFormat(fields[1], "HHmm", { zone: "UTC" });
             state.eta = DateTime.fromFormat(fields[2], "HHmm", { zone: "UTC" });
             if(!isNaN(state.tz_offset) && state.sta.isValid && state.eta.isValid) {
+                // times more than 6 hours before now assumed to mean tomorrow
+                if(state.sta.diffNow() < -6 * 3600 * 1000) {
+                    state.sta = state.sta.plus({days: 1});
+                }
+                if(state.eta.diffNow() < -6 * 3600 * 1000) {
+                    state.eta = state.eta.plus({days: 1});
+                }
                 state.valid_times = true;
             }
         }
@@ -133,18 +140,15 @@ function do_calculation(state) {
         out.eta_l = state.eta.setZone(zone).toFormat("HH:mm");
         out.eta_uk = state.eta.setZone("Europe/London").toFormat("HH:mm");
         out.now_l = DateTime.now().setZone(zone).toFormat("HH:mm");
-        out.delay = Math.round((state.eta - state.sta) / 60000);
-        // adjust delay to be ±12 hours to correct for eta/sta
-        // straddling midnight UTC
-        if(out.delay < -60 * 12) {
-            out.delay += 60 * 24;
-        } else if(out.delay > 60 * 12) {
-            out.delay -= 60 * 24;
-        }
+        let left = state.eta.diff(DateTime.now().set({second: 0, millisecond: 0}));
+        out.time_left = left > 0 ? left.toFormat("h:mm") : "-:--";
+        let delay = state.eta.diff(state.sta);
+        out.delay = delay > 0 ? delay.toFormat("h:mm") + " late":
+            delay.negate().toFormat("h:mm") + " early";
     }
     else {
         out.eta_l = out.eta_uk = out.now_l = "--:--";
-        out.delay = "---";
+        out.delay = out.time_left = "-:--";
     }
     return out;
 }
@@ -160,7 +164,8 @@ function draw(out, input_validity) {
         ["o-wp-dist", out.wp_dist],
         ["o-wp-fuzzy-brg-from", out.wp_bearing],
         ["o-eta-uk", out.eta_uk], ["o-eta-l", out.eta_l],
-        ["o-now-l", out.now_l], ["o-delay", out.delay]
+        ["o-now-l", out.now_l], ["o-time-left", out.time_left],
+        ["o-delay", out.delay]
     ]) {
         ID(id).innerText = val;
     }
