@@ -12,66 +12,67 @@
     <link rel="icon" href="icon.svg" type="image/svg+xml">
   </head>
   <body>
-    <header><a onclick="javascript:location.reload();">v1.25</a></header>
+    <header>v1.26</header>
     <dialog id="help-modal">
       <div class="j-button-bar">
         <button id="close-modal">Close</button>
       </div>
       <div class="j-scroll-container" tabindex="1" id="help-scroll-container">
         <div class="j-scrollability-indicator">
-      <h1>Input Fields</h1>
+          <h1>Input Fields</h1>
+          <dl>
+            <dt>Flight Parameters</dt>
+            <dd>Three positive integers, separated by spaces. The first is
+              your <b>flight level</b>, the second your <b>magnetic track</b>
+              and the third your <b>ground speed</b> in knots. For example:
+              <code>370 020 455</code> is flight level 370, magnetic
+              track 020° and ground speed 455kt.
+            </dd>
+            <dt>Distances</dt>
+            <dd>Two positive integers, separated by spaces. The first is
+              the <b>total sector length</b> in nautical miles, the second
+              is <b>distance to run</b>, also in nautical miles. For
+              example <code>1000 300</code> is a 1000nm sector which has 300nm
+              left to run.</dd>
+            <dt>Times</dt>
+            <dd>Three integers, separated by spaces. The first is
+              destination <b>timezone offset</b>, which is the only entry in the
+              whole form that may be negative. The second is <b>scheduled time
+              of arrival</b> in UTC and the third is <b>estimated time of
+              arrival</b>, also in UTC. For example <code>-2 1000 0950</code>
+              means that the local time at the destination is 2 hours behind
+              UTC, the scheduled arrival is 1000Z and the ETA is 0950Z.</dd>
+            <dt>Waypoint</dt>
+            <dd>Two positive integers, giving the position of a waypoint that
+              you wish to reference your current position to. The first is
+              the <b>bearing to</b> the waypoint and the second is
+              the <b>distance</b> to the waypoint in nautical miles. For
+              example <code>270 100</code> is the position of a waypoint 100nm
+              to the West of you.</dd>
+          </dl>
+          <h1>Output</h1>
+          <p>Distances and speeds are converted to statute miles, and tracks and
+            bearings are converted to “fuzzy” directions. The bearing in
+            the <b>Position</b> field is also reversed, so that position
+            relative to the waypoint can be read off.</p>
 
-      <dl>
-        <dt>Flight Parameters</dt>
-        <dd>Three positive integers, separated by spaces. The first is
-          your <b>flight level</b>, the second your <b>magnetic
-          track</b> and the third your <b>ground speed</b> in knots.
-          For example:
-          <code>370 020 455</code> is flight level 370, magnetic track
-          020° and ground speed 455kt.
-        </dd>
-        <dt>Distances</dt>
-        <dd>Two positive integers, separated by spaces. The first is
-          the <b>total sector length</b> in nautical miles, the
-          second is <b>distance to run</b>, also in nautical miles.
-          For example <code>1000 300</code> is a 1000nm sector which
-          has 300nm left to run.</dd>
-        <dt>Times</dt>
-        <dd>Three integers, separated by spaces. The first is
-          destination <b>timezone offset</b>, which is the only entry
-          in the whole form that may be negative. The second
-          is <b>scheduled time of arrival</b> in UTC and the third
-          is <b>estimated time of arrival</b>, also in UTC. For
-          example <code>-2 1000 0950</code> means that the local time
-          at the destination is 2 hours behind UTC, the scheduled
-          arrival is 1000Z and the ETA is 0950Z.</dd>
-        <dt>Waypoint</dt>
-        <dd>Two positive integers, giving the position of a waypoint
-          that you wish to reference your current position to. The
-          first is the <b>bearing to</b> the waypoint and the second
-          is the <b>distance</b> to the waypoint in nautical miles.
-          For example <code>270 100</code> is the position of a
-          waypoint 100nm to the West of you.</dd>
-      </dl>
-      <h1>Output</h1>
+          <p>Times are provided in terms of UK and destination timezones,
+            including the current local time at destination, and the delay is
+            calculated — a negative delay means running ahead of schedule.</p>
 
-      <p>Distances and speeds are converted to statute miles, and
-        tracks and bearings are converted to “fuzzy” directions. The
-        bearing in the <b>Position</b> field is also reversed, so
-        that position relative to the waypoint can be read off.</p>
+          <p>Additional ways of describing data are also provided: ground speed
+            in terms of the number of seconds required to cover one mile, and
+            the fraction of the journey completed.</p>
 
-      <p>Times are provided in terms of UK and destination timezones,
-        including the current local time at destination, and the delay
-        is calculated — a negative delay means running ahead of
-        schedule.</p>
+          <p>The output is live: it updates every ten seconds to take account of
+            changes in position and time since the input data was entered.</p>
 
-      <p>Additional ways of describing data are also provided: ground
-        speed in terms of the number of seconds required to cover one
-        mile, and the fraction of the journey completed.</p>
+          <h1>Updating</h1>
+          <p>To update to the latest version, simply refresh the page whilst
+            connected to the Internet. If you have installed as a web app, there
+            may not be an obvious way of refreshing the page, in which case
+            close that app and restart it.</p>
 
-      <p>The output is live: it updates every ten seconds to take
-        account of changes in position and time since the input data
-        was entered.</p>
       </div></div>
     </dialog>
     <div id="input" class="j-input">
