@@ -49,6 +49,13 @@ function _update(msg, state, draw) {
             state.sta = DateTime.fromFormat(fields[1], "HHmm", { zone: "UTC" });
             state.eta = DateTime.fromFormat(fields[2], "HHmm", { zone: "UTC" });
             if(!isNaN(state.tz_offset) && state.sta.isValid && state.eta.isValid) {
+                // times more than 6 hours before now assumed to mean tomorrow
+                if(state.sta.diffNow() < -6 * 3600 * 1000) {
+                    state.sta = state.sta.plus({days: 1});
+                }
+                if(state.eta.diffNow() < -6 * 3600 * 1000) {
+                    state.eta = state.eta.plus({days: 1});
+                }
                 state.valid_times = true;
             }
         }
@@ -133,30 +140,17 @@ function do_calculation(state) {
         out.eta_l = state.eta.setZone(zone).toFormat("HH:mm");
         out.eta_uk = state.eta.setZone("Europe/London").toFormat("HH:mm");
         out.now_l = DateTime.now().setZone(zone).toFormat("HH:mm");
-        out.time_left = duration(state.eta - DateTime.now());
-        out.delay = duration(state.eta - state.sta);
+        let left = state.eta.diffNow();
+        out.time_left = left > 0 ? left.toFormat("h:mm") : "-:--";
+        let delay = state.eta.diff(state.sta);
+        out.delay = delay > 0 ? delay.toFormat("h:mm") + " late":
+            delay.negate().toFormat("h:mm") + " early";
     }
     else {
         out.eta_l = out.eta_uk = out.now_l = "--:--";
         out.delay = out.time_left = "-:--";
     }
     return out;
-}
-
-
-function duration(millis) {
-    const HOUR_IN_MILLIS = 3600000;
-    if(millis < -HOUR_IN_MILLIS * 12) {
-        millis += HOUR_IN_MILLIS * 24;
-    } else if(millis > HOUR_IN_MILLIS * 12) {
-        millis -= HOUR_IN_MILLIS * 24;
-    }
-    let sign = "";
-    if(millis < 0) {
-        sign = "-";
-        millis = -millis;
-    }
-    return sign + Duration.fromMillis(millis).toFormat("h:mm");
 }
 
 
