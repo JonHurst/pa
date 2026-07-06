@@ -140,7 +140,7 @@ function do_calculation(state) {
         out.eta_l = state.eta.setZone(zone).toFormat("HH:mm");
         out.eta_uk = state.eta.setZone("Europe/London").toFormat("HH:mm");
         out.now_l = DateTime.now().setZone(zone).toFormat("HH:mm");
-        let left = state.eta.diffNow();
+        let left = state.eta.diffNow().plus({minutes: 1}); // round upwards
         out.time_left = left > 0 ? left.toFormat("h:mm") : "-:--";
         let delay = state.eta.diff(state.sta);
         out.delay = delay > 0 ? delay.toFormat("h:mm") + " late":
