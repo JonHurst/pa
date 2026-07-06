@@ -31,9 +31,21 @@ body {
 
 header {
     text-align: right;
-    font-size: 0.8rem;
     padding-right: var(--spacing-xs);
-    color: var(--border-color);
+}
+
+header a {
+    font-size: 0.8rem;
+    border: var(--border);
+    border-radius: var(--border-radius);
+    background-color: var(--bg-color-3);
+    cursor: pointer;
+    padding: 0 var(--spacing-xs);
+    @media (hover: hover) {
+        &:hover {
+            background-color: var(--bg-color-4);
+        }
+    }
 }
 
 button {
