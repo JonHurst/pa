@@ -133,20 +133,30 @@ function do_calculation(state) {
         out.eta_l = state.eta.setZone(zone).toFormat("HH:mm");
         out.eta_uk = state.eta.setZone("Europe/London").toFormat("HH:mm");
         out.now_l = DateTime.now().setZone(zone).toFormat("HH:mm");
-        out.delay = Math.round((state.eta - state.sta) / 60000);
-        // adjust delay to be ±12 hours to correct for eta/sta
-        // straddling midnight UTC
-        if(out.delay < -60 * 12) {
-            out.delay += 60 * 24;
-        } else if(out.delay > 60 * 12) {
-            out.delay -= 60 * 24;
-        }
+        out.time_left = duration(state.eta - DateTime.now());
+        out.delay = duration(state.eta - state.sta);
     }
     else {
         out.eta_l = out.eta_uk = out.now_l = "--:--";
-        out.delay = "---";
+        out.delay = out.time_left = "-:--";
     }
     return out;
+}
+
+
+function duration(millis) {
+    const HOUR_IN_MILLIS = 3600000;
+    if(millis < -HOUR_IN_MILLIS * 12) {
+        millis += HOUR_IN_MILLIS * 24;
+    } else if(millis > HOUR_IN_MILLIS * 12) {
+        millis -= HOUR_IN_MILLIS * 24;
+    }
+    let sign = "";
+    if(millis < 0) {
+        sign = "-";
+        millis = -millis;
+    }
+    return sign + Duration.fromMillis(millis).toFormat("h:mm");
 }
 
 
@@ -160,7 +170,8 @@ function draw(out, input_validity) {
         ["o-wp-dist", out.wp_dist],
         ["o-wp-fuzzy-brg-from", out.wp_bearing],
         ["o-eta-uk", out.eta_uk], ["o-eta-l", out.eta_l],
-        ["o-now-l", out.now_l], ["o-delay", out.delay]
+        ["o-now-l", out.now_l], ["o-time-left", out.time_left],
+        ["o-delay", out.delay]
     ]) {
         ID(id).innerText = val;
     }
