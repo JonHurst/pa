@@ -1,7 +1,4 @@
 :root {
-    --border-color: #AAA;
-    --border: 1px solid var(--border-color);
-    --border-radius: .25rem;
     --spacing-m: 0.9rem;
     --spacing-xs: calc(var(--spacing-m) / 4);
     --spacing-s: calc(var(--spacing-m) / 2);
@@ -15,6 +12,10 @@
     --fg-color: black;
     --fg-color-1: #080;
     --fg-color-2: #B00;
+    --border-color: #AAA;
+    --border: 1px solid var(--border-color);
+    --border-1: 2px solid var(--fg-color-1);
+    --border-radius: .25rem;
 }
 
 body {
@@ -57,8 +58,8 @@ button {
     display: grid;
     grid-template-columns: 11rem 1fr;
     background-color: var(--bg-color-2);
-    border-top: var(--border);
-    border-bottom: var(--border);
+    border-top: var(--border-1);
+    border-bottom: var(--border-1);
     padding: var(--spacing-l) var(--spacing-m) var(--spacing-s);
     input {
         font-size: 1.25rem;
@@ -102,7 +103,10 @@ button {
         border-bottom: var(--border);
     }
     .j-output-label:first-child, .j-result:nth-child(2) {
-        border-top: var(--border);
+        border-top: var(--border-1);
+    }
+    .j-output-label:nth-last-child(2), .j-result:nth-last-child(1) {
+        border-bottom: var(--border-1);
     }
     span {
         color: var(--fg-color-1);
@@ -162,9 +166,13 @@ dialog {
         .j-output-label {
             border-bottom: none;
         }
+        .j-output-label:nth-last-child(2) {
+            border-bottom: none;
+        }
         .j-result:nth-child(2) {
             border-top: none;
         }
+
     }
     dialog {
         padding: 0.2rem;
