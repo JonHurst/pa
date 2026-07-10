@@ -221,7 +221,7 @@ function main() {
     let update = msg => _update(msg, state, draw);
     do_wiring(update);
     reparse_all(update);
-    window.setInterval(() => update({type: "recalc"}), 1000 * 10);
+    window.setInterval(() => update({type: "recalc"}), 1000 * 5);
 }
 
 window.onload = main;
