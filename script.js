@@ -117,12 +117,14 @@ function do_calculation(state) {
         if(ltr < 0) {
             ltr = 0;
         }
-        out.dist_to_run = (ltr * 1.151).toFixed(0);
+        let completed = state.dist_total - ltr;
+        out.dist_left = (ltr * 1.151).toFixed(0);
+        out.dist_completed = (completed * 1.151).toFixed(0);
         out.total_dist = (state.dist_total * 1.151).toFixed(0);
         out.fraction = state.dist_total ?
             ((state.dist_total - ltr) / state.dist_total).toFixed(2) : "---";
     } else {
-        out.dist_to_run = out.total_dist = out.fraction = "---";
+        out.dist_left = out.dist_completed = out.total_dist = out.fraction = "---";
     }
     // update bearing and distance based on time since waypoint data entered
     if(state.valid_flight && state.valid_waypoint) {
@@ -156,13 +158,11 @@ function do_calculation(state) {
 
 function draw(out, input_validity) {
     for(let [id, val] of [
-        ["o-fp-alt", out.altitude],
-        ["o-fp-fuzzy-trk", out.track],
+        ["o-wp-dist", out.wp_dist], ["o-wp-fuzzy-brg-from", out.wp_bearing],
+        ["o-fp-alt", out.altitude], ["o-fp-fuzzy-trk", out.track],
         ["o-fp-speed", out.speed], ["o-inverse-speed", out.inverse_speed],
-        ["o-dist-left", out.dist_to_run], ["o-dist-sector", out.total_dist],
-        ["o-fraction", out.fraction],
-        ["o-wp-dist", out.wp_dist],
-        ["o-wp-fuzzy-brg-from", out.wp_bearing],
+        ["o-dist-left", out.dist_left], ["o-dist-completed", out.dist_completed],
+        ["o-dist-sector", out.total_dist], ["o-fraction", out.fraction],
         ["o-eta-uk", out.eta_uk], ["o-eta-l", out.eta_l],
         ["o-now-l", out.now_l], ["o-time-left", out.time_left],
         ["o-delay", out.delay]
