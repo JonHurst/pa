@@ -12,7 +12,7 @@
     <link rel="icon" href="icon.svg" type="image/svg+xml">
   </head>
   <body>
-    <header>v1.27</header>
+    <header>v1.28</header>
     <dialog id="help-modal">
       <div class="j-button-bar">
         <button id="close-modal">Close</button>
@@ -20,6 +20,7 @@
       <div class="j-scroll-container" tabindex="1" id="help-scroll-container">
         <div class="j-scrollability-indicator">
           <h1>Input Fields</h1>
+
           <dl>
             <dt>Flight Parameters</dt>
             <dd>Three positive integers, separated by spaces. The first is
@@ -50,28 +51,32 @@
               example <code>270 100</code> is the position of a waypoint 100nm
               to the West of you.</dd>
           </dl>
+
           <h1>Output</h1>
-          <p>Distances and speeds are converted to statute miles, and tracks and
-            bearings are converted to “fuzzy” directions. The bearing in
-            the <b>Position</b> field is also reversed, so that position
-            relative to the waypoint can be read off.</p>
 
-          <p>Times are provided in terms of UK and destination timezones,
-            including the current local time at destination, and the delay is
-            calculated — a negative delay means running ahead of schedule.</p>
+          <p>Distances and speeds are converted to use statute miles. Ground
+            speed in terms of seconds to fly one mile, and distance in terms of
+            fraction of sector completed are also provided.</p>
 
-          <p>Additional ways of describing data are also provided: ground speed
-            in terms of the number of seconds required to cover one mile, and
-            the fraction of the journey completed.</p>
+          <p>Tracks and bearings are converted to “fuzzy” directions, such as
+            “North by North-West”. The bearing in the <b>Position</b> field is
+            also reversed, so that position relative to the waypoint can be read
+            off.</p>
+
+          <p>For time data, time left, ETA in UK and destination time, current
+            local time at destination, and the relationship between ETA and STA
+            are calculated.</p>
 
           <p>The output is live: it updates every five seconds to take account of
-            changes in position and time since the input data was entered.</p>
+            changes in position and time since the relevant input data field was
+            last modified.</p>
 
           <h1>Updating</h1>
-          <p>To update to the latest version, simply refresh the page whilst
-            connected to the Internet. If you have installed as a web app, there
-            may not be an obvious way of refreshing the page, in which case
-            close that app and restart it.</p>
+
+          <p>To update to the latest version, simply open or refresh the page
+            whilst connected to the Internet. If you have installed the page as
+            a web app, there may not be an obvious way of refreshing, in which
+            case close the app then restart it.</p>
 
       </div></div>
     </dialog>
