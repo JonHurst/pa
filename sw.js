@@ -1,24 +1,36 @@
-const VERSION = "1.30";
-const UID = "pa_cache";
-const CACHE = `${UID}.${VERSION}`;
-const SAFE_PAGE = "index.html";
-const MANIFEST = [
-    "index.html",
-    "styles.css",
-    "script.js",
-    "luxon.js",
-    "icon.svg",
-    "icon-180.png",
-    "icon-192.png",
-    "pa.webmanifest"
-];
+const META = {
+    "VERSION": "1.35",
+    "MANIFEST": [
+        "index.html",
+        "styles.css",
+        "script.js",
+        "luxon.js",
+        "icon.svg",
+        "icon-180.png",
+        "icon-192.png",
+        "pa.webmanifest"
+    ]
+}
+const APP_ID = "pa_cache";
+const CACHE = `${APP_ID}.${META["VERSION"]}`;
+const LANDING_PAGE = "index.html";
+
+
+async function add_files(cache) {
+    await cache.addAll(META["MANIFEST"]);
+    let responses = await cache.matchAll();
+    let bad = responses
+        .filter(r => r.headers.get("cache-control") == "no-cache")
+        .filter(r => r.headers.get("x-amz-meta-version") != META["VERSION"]);
+    if(bad.length) throw Error("Inconsistent");
+}
 
 
 self.addEventListener('install', event => {
     self.skipWaiting();
     event.waitUntil(
         caches.open(CACHE)
-            .then(cache => cache.addAll(MANIFEST))
+            .then(cache => add_files(cache))
             .catch(err => {
                 console.log(`Error initialising cache: \n${err}`);
                 return Promise.reject();
@@ -30,13 +42,13 @@ self.addEventListener("activate", (event) => {
     event.waitUntil(Promise.all([
         caches.keys()
             .then(key_list => key_list.filter(k =>
-                k.startsWith(UID) && k != CACHE))
+                k.startsWith(APP_ID) && k != CACHE))
             .then(del_list => Promise.all(
                 del_list.map(k => caches.delete(k)))),
         self.clients.matchAll()
             .then(clients => {
                 for(let client of clients) {
-                    client.navigate(SAFE_PAGE);
+                    client.navigate(LANDING_PAGE);
                 }
             })
     ]));

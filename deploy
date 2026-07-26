@@ -1,9 +1,0 @@
-#!/bin/bash
-
-TARGET=~/proj/website/content/pa/
-cd "$(dirname "$0")"
-mkdir -p $TARGET
-cp -av icon* index.html luxon.js script.js sw.js styles.css \
-   pa.webmanifest $TARGET
-
-echo "Files copied to $TARGET -- you still need to deploy them!"
