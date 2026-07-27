@@ -39,6 +39,5 @@ else:
 subprocess.run([
     "aws", "s3", "sync",
     BUILD_DIR, bucket,
-    "--delete",
     "--metadata", f"version={meta['VERSION']}",
     "--cache-control='no-cache'"])
