@@ -39,5 +39,12 @@ else:
 subprocess.run([
     "aws", "s3", "sync",
     BUILD_DIR, bucket,
+    "--exclude", "*.html",
+    "--metadata", f"version={meta['VERSION']}",
+    "--cache-control='no-cache'"])
+subprocess.run([
+    "aws", "s3", "sync",
+    BUILD_DIR, bucket,
+    "--exclude", "*", "--include", "*.html",
     "--metadata", f"version={meta['VERSION']}",
     "--cache-control='no-cache'"])
