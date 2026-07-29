@@ -1,5 +1,5 @@
 const META = {
-    "VERSION": "1.35",
+    "VERSION": "1.37",
     "MANIFEST": [
         "index.html",
         "styles.css",
@@ -17,6 +17,7 @@ const LANDING_PAGE = "index.html";
 
 
 async function add_files(cache) {
+    META["MANIFEST"].push(".");
     await cache.addAll(META["MANIFEST"]);
     let responses = await cache.matchAll();
     let bad = responses
