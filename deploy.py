@@ -9,8 +9,8 @@ import subprocess
 
 SRC_DIR = Path("/home/jon/proj/pa")
 BUILD_DIR = SRC_DIR / "build"
-STAGING_BUCKET = "s3://staging.hursts.org.uk/pa"
-PROD_BUCKET = "s3://hursts.org.uk/pa"
+STAGING_BUCKET = "s3://staging.apps.hursts.org.uk-920541147914-eu-west-2-an/pa"
+PROD_BUCKET = "s3://apps.hursts.org.uk-920541147914-eu-west-2-an/pa"
 
 # load metadata from sw.js
 sw = (SRC_DIR / "sw.js").read_text()
