@@ -1,5 +1,5 @@
 const META = {
-    "VERSION": "1.38",
+    "VERSION": "1.39",
     "MANIFEST": [
         "index.html",
         "styles.css",
