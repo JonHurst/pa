@@ -1,13 +1,13 @@
 const META = {
-    "VERSION": "1.37",
+    "VERSION": "1.38",
     "MANIFEST": [
         "index.html",
         "styles.css",
         "script.js",
         "luxon.js",
-        "icon.svg",
-        "icon-180.png",
-        "icon-192.png",
+        "icon.1.svg",
+        "icon-180.1.png",
+        "icon-192.1.png",
         "pa.webmanifest"
     ]
 }

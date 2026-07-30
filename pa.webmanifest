@@ -8,19 +8,22 @@
     "description": "Calculator for PAs",
     "icons": [
         {
-            "src": "icon.svg",
+            "src": "icon.1.svg",
             "sizes": "any",
-            "type": "image/svg"
+            "type": "image/svg",
+            "purpose": "maskable all"
         },
         {
-            "src": "icon-180.png",
+            "src": "icon-180.1.png",
             "sizes": "180x180",
-            "type": "image/png"
+            "type": "image/png",
+            "purpose": "maskable all"
         },
         {
-            "src": "icon-192.png",
+            "src": "icon-192.1.png",
             "sizes": "192x192",
-            "type": "image/png"
+            "type": "image/png",
+            "purpose": "maskable all"
         }
     ]
 }
